@@ -1,0 +1,62 @@
+# Datacard for <Channel (ptbin0ggfpass2022) instance at 0x7fa4bc92e1c0> generated on 2024-02-06 12:50:52.238562
+imax 1 # number of categories ('bins' but here we are using shape templates)
+jmax 10 # number of samples minus 1
+kmax 19 # number of nuisance parameters
+shapes * ptbin0ggfpass2022 testModel_2022.root testModel_2022:ptbin0ggfpass2022_$PROCESS testModel_2022:ptbin0ggfpass2022_$PROCESS_$SYSTEMATIC
+bin ptbin0ggfpass2022
+observation 14176.000
+bin                                   ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022
+process                                         ZJetsbb            ZJetsqq              TTbar                  W                 VV                VBF                 ZH                 WH                ttH                ggF                qcd
+process                                               0                  1                  2                  3                  4                  5                  6                  7                  8                  9                 10
+rate                                            811.375             50.539            861.099            151.866             10.977             13.560              4.781              4.728              3.877             29.289              1.000
+CMS_lumi_13TeV_2016 lnN                          1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220                  -
+CMS_res_j_2022 lnN                        1.0037/0.9973      1.0028/1.0005      0.9943/1.0029      0.9686/0.9589      1.0102/0.9987      1.0102/1.0014      1.0075/0.9926      1.0083/0.9895      0.9993/1.0032      1.0006/1.0004                  -
+CMS_scale_j_2022 lnN                      0.9590/1.0389      0.9930/1.0235      0.9671/1.0327      0.9394/0.9735      0.9855/1.0197      0.9944/0.9947      0.9704/1.0252      0.9982/1.0286      1.0002/1.0168      0.9668/0.9986                  -
+ptbin0ggfpass2022_TTbar_mcstat lnN                    -                  -             1.0794                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin0ggfpass2022_VBF_mcstat lnN                      -                  -                  -                  -                  -             1.1662                  -                  -                  -                  -                  -
+ptbin0ggfpass2022_VV_mcstat lnN                       -                  -                  -                  -             1.1418                  -                  -                  -                  -                  -                  -
+ptbin0ggfpass2022_WH_mcstat lnN                       -                  -                  -                  -                  -                  -                  -             1.1014                  -                  -                  -
+ptbin0ggfpass2022_W_mcstat lnN                        -                  -                  -             1.3669                  -                  -                  -                  -                  -                  -                  -
+ptbin0ggfpass2022_ZH_mcstat lnN                       -                  -                  -                  -                  -                  -             1.1067                  -                  -                  -                  -
+ptbin0ggfpass2022_ZJetsbb_mcstat lnN             1.0326                  -                  -                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin0ggfpass2022_ZJetsqq_mcstat lnN                  -             1.1230                  -                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin0ggfpass2022_ggF_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -                  -             1.1682                  -
+ptbin0ggfpass2022_ttH_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -             1.1390                  -                  -
+tf_MCtempl_ggf2022_deco0 param 0 1
+tf_MCtempl_ggf2022_deco1 param 0 1
+tf_MCtempl_ggf2022_deco2 param 0 1
+tf_MCtempl_ggf2022_deco3 param 0 1
+tf_MCtempl_ggf2022_deco4 param 0 1
+tf_MCtempl_ggf2022_deco5 param 0 1
+qcdparam_ggf_ptbin0_regbin0 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin1 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin10 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin11 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin12 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin13 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin14 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin15 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin16 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin17 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin18 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin19 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin20 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin21 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin22 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin3 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin4 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin5 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin6 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin7 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin8 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin9 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par2 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par2 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par2 extArg testModel_2022.root:testModel_2022

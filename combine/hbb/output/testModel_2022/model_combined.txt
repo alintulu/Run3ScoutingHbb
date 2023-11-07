@@ -1,0 +1,155 @@
+Combination of ptbin0ggfpass2022=ptbin0ggfpass2022.txt  ptbin0ggffail2022=ptbin0ggffail2022.txt  ptbin1ggfpass2022=ptbin1ggfpass2022.txt  ptbin1ggffail2022=ptbin1ggffail2022.txt  ptbin2ggfpass2022=ptbin2ggfpass2022.txt  ptbin2ggffail2022=ptbin2ggffail2022.txt  ptbin3ggfpass2022=ptbin3ggfpass2022.txt  ptbin3ggffail2022=ptbin3ggffail2022.txt  ptbin4ggfpass2022=ptbin4ggfpass2022.txt  ptbin4ggffail2022=ptbin4ggffail2022.txt
+imax 10 number of bins
+jmax 10 number of processes minus 1
+kmax 7 number of nuisance parameters
+----------------------------------------------------------------------------------------------------------------------------------
+shapes *                  ptbin0ggffail2022  testModel_2022.root testModel_2022:ptbin0ggffail2022_$PROCESS testModel_2022:ptbin0ggffail2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin0ggfpass2022  testModel_2022.root testModel_2022:ptbin0ggfpass2022_$PROCESS testModel_2022:ptbin0ggfpass2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin1ggffail2022  testModel_2022.root testModel_2022:ptbin1ggffail2022_$PROCESS testModel_2022:ptbin1ggffail2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin1ggfpass2022  testModel_2022.root testModel_2022:ptbin1ggfpass2022_$PROCESS testModel_2022:ptbin1ggfpass2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin2ggffail2022  testModel_2022.root testModel_2022:ptbin2ggffail2022_$PROCESS testModel_2022:ptbin2ggffail2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin2ggfpass2022  testModel_2022.root testModel_2022:ptbin2ggfpass2022_$PROCESS testModel_2022:ptbin2ggfpass2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin3ggffail2022  testModel_2022.root testModel_2022:ptbin3ggffail2022_$PROCESS testModel_2022:ptbin3ggffail2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin3ggfpass2022  testModel_2022.root testModel_2022:ptbin3ggfpass2022_$PROCESS testModel_2022:ptbin3ggfpass2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin4ggffail2022  testModel_2022.root testModel_2022:ptbin4ggffail2022_$PROCESS testModel_2022:ptbin4ggffail2022_$PROCESS_$SYSTEMATIC
+shapes *                  ptbin4ggfpass2022  testModel_2022.root testModel_2022:ptbin4ggfpass2022_$PROCESS testModel_2022:ptbin4ggfpass2022_$PROCESS_$SYSTEMATIC
+----------------------------------------------------------------------------------------------------------------------------------
+bin          ptbin0ggfpass2022  ptbin0ggffail2022  ptbin1ggfpass2022  ptbin1ggffail2022  ptbin2ggfpass2022  ptbin2ggffail2022  ptbin3ggfpass2022  ptbin3ggffail2022  ptbin4ggfpass2022  ptbin4ggffail2022
+observation  133363             32664469           58599              15940853           27697              7875293            13858              4058964            17052              5181702          
+----------------------------------------------------------------------------------------------------------------------------------
+bin                                    ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggfpass2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggfpass2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin2ggffail2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggfpass2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin3ggffail2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022  ptbin4ggffail2022
+process                                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd                ggF                ZJetsqq            ZJetsbb            TTbar              W                  VV                 VBF                ZH                 WH                 ttH                qcd              
+process                                0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10                 0                  1                  2                  3                  4                  5                  6                  7                  8                  9                  10               
+rate                                   89.887             277.608            3088.866           6287.742           800.284            46.877             41.765             13.74              14.323             14.232             1                  417.912            36923.889          9661.564           281347.38          208921.53          4277.077           165.41             72.991             103.214            279.182            1                  68.871             174.065            1680.408           3591.497           522.088            29.635             32.917             10.519             11.042             11.343             1                  242.515            21255.271          5326.569           153941.875         118036.461         2444.899           88.122             40.838             59.757             175.342            1                  44.827             111.918            908.07             1946.818           359.501            18.652             22.014             6.71               7.552              7.952              1                  120.113            12376.399          3061.317           86441.967          67346.089          1421.654           44.272             22.831             30.907             109.244            1                  26.234             72.843             515.537            1099.61            213.943            12.262             10.796             4.233              4.586              5.11               1                  71.212             7377.835           1793.673           48168.752          39704.54           862.392            23.602             13.672             18.38              65.49              1                  34.497             156.973            808.04             1561.002           609.081            29.254             18.259             6.404              8.418              8.065              1                  83.736             12278.217          2885.573           65795.452          65193.677          1517.706           37.522             23.345             29.528             99.291             1                
+----------------------------------------------------------------------------------------------------------------------------------
+CMS_lumi_13TeV_2016     lnN            1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                  1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              1.022              -                
+tf_MCtempl_ggf2022_deco0  param  0 1
+tf_MCtempl_ggf2022_deco1  param  0 1
+tf_MCtempl_ggf2022_deco2  param  0 1
+tf_MCtempl_ggf2022_deco3  param  0 1
+tf_MCtempl_ggf2022_deco4  param  0 1
+tf_MCtempl_ggf2022_deco5  param  0 1
+qcdparam_ggf_ptbin0_regbin0 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin1 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin10 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin11 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin12 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin13 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin14 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin15 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin16 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin17 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin18 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin19 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin20 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin21 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin22 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin3 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin4 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin5 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin6 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin7 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin8 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin9 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par2 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par2 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin0 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin1 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin10 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin11 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin12 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin13 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin14 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin15 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin16 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin17 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin18 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin19 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin20 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin21 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin22 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin3 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin4 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin5 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin6 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin7 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin8 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin1_regbin9 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin0 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin1 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin10 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin11 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin12 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin13 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin14 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin15 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin16 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin17 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin18 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin19 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin20 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin21 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin22 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin3 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin4 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin5 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin6 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin7 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin8 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin2_regbin9 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin0 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin1 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin10 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin11 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin12 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin13 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin14 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin15 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin16 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin17 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin18 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin19 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin20 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin21 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin22 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin3 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin4 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin5 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin6 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin7 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin8 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin3_regbin9 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin0 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin1 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin10 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin11 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin12 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin13 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin14 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin15 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin16 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin17 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin18 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin19 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin20 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin21 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin22 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin3 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin4 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin5 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin6 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin7 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin8 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin9 extArg testModel_2022.root:testModel_2022

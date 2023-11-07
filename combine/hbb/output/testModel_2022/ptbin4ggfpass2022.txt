@@ -1,0 +1,50 @@
+# Datacard for <Channel (ptbin4ggfpass2022) instance at 0x7f0896cfe9a0> generated on 2024-01-17 11:23:14.275000
+imax 1 # number of categories ('bins' but here we are using shape templates)
+jmax 10 # number of samples minus 1
+kmax 7 # number of nuisance parameters
+shapes * ptbin4ggfpass2022 testModel_2022.root testModel_2022:ptbin4ggfpass2022_$PROCESS testModel_2022:ptbin4ggfpass2022_$PROCESS_$SYSTEMATIC
+bin ptbin4ggfpass2022
+observation 17052.000
+bin                      ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022  ptbin4ggfpass2022
+process                                ggF            ZJetsqq            ZJetsbb              TTbar                  W                 VV                VBF                 ZH                 WH                ttH                qcd
+process                                  0                  1                  2                  3                  4                  5                  6                  7                  8                  9                 10
+rate                                34.497            156.973            808.040           1561.002            609.081             29.254             18.259              6.404              8.418              8.065              1.000
+CMS_lumi_13TeV_2016 lnN             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220                  -
+tf_MCtempl_ggf2022_deco0 param 0 1
+tf_MCtempl_ggf2022_deco1 param 0 1
+tf_MCtempl_ggf2022_deco2 param 0 1
+tf_MCtempl_ggf2022_deco3 param 0 1
+tf_MCtempl_ggf2022_deco4 param 0 1
+tf_MCtempl_ggf2022_deco5 param 0 1
+qcdparam_ggf_ptbin4_regbin0 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin1 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin10 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin11 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin12 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin13 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin14 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin15 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin16 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin17 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin18 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin19 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin20 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin21 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin22 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin3 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin4 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin5 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin6 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin7 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin8 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin4_regbin9 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par0_rho_par2 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par1_rho_par2 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par0 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par1 extArg testModel_2022.root:testModel_2022
+tf_dataResidual_2022ggf_pt_par2_rho_par2 extArg testModel_2022.root:testModel_2022

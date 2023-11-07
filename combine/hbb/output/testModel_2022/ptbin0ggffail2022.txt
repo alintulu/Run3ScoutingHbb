@@ -1,0 +1,35 @@
+# Datacard for <Channel (ptbin0ggffail2022) instance at 0x7f0896cf37f0> generated on 2024-01-17 11:23:13.685957
+imax 1 # number of categories ('bins' but here we are using shape templates)
+jmax 10 # number of samples minus 1
+kmax 1 # number of nuisance parameters
+shapes * ptbin0ggffail2022 testModel_2022.root testModel_2022:ptbin0ggffail2022_$PROCESS testModel_2022:ptbin0ggffail2022_$PROCESS_$SYSTEMATIC
+bin ptbin0ggffail2022
+observation 32664469.000
+bin                      ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022  ptbin0ggffail2022
+process                                ggF            ZJetsqq            ZJetsbb              TTbar                  W                 VV                VBF                 ZH                 WH                ttH                qcd
+process                                  0                  1                  2                  3                  4                  5                  6                  7                  8                  9                 10
+rate                               417.912          36923.889           9661.564         281347.380         208921.530           4277.077            165.410             72.991            103.214            279.182              1.000
+CMS_lumi_13TeV_2016 lnN             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220                  -
+qcdparam_ggf_ptbin0_regbin0 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin1 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin10 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin11 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin12 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin13 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin14 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin15 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin16 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin17 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin18 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin19 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin2 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin20 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin21 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin22 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin3 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin4 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin5 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin6 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin7 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin8 extArg testModel_2022.root:testModel_2022
+qcdparam_ggf_ptbin0_regbin9 extArg testModel_2022.root:testModel_2022

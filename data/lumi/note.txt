@@ -1,0 +1,3 @@
+source /cvmfs/cms-bril.cern.ch/cms-lumi-pog/brilws-docker/brilws-env
+
+brilcalc lumi --normtag /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/normtag_BRIL.json --output-style csv -i Run3_2022_2023_Golden.json -b "STABLE BEAMS" -u /pb --byls
