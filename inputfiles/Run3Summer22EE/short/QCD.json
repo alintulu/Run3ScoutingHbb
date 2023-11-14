@@ -1,0 +1,6 @@
+{
+  "QCD_PT-1000to1400": [
+    "root://cmsxrootd-kit.gridka.de:1094//store/user/adlintul/scouting/run3/2022/mc/qcd/QCD_PT-1000to1400_TuneCP5_13p6TeV_pythia8/postEE/231107_101832/0000/nanogen_1.root",
+    "root://cmsxrootd-kit.gridka.de:1094//store/user/adlintul/scouting/run3/2022/mc/qcd/QCD_PT-1000to1400_TuneCP5_13p6TeV_pythia8/postEE/231107_101832/0000/nanogen_99.root"
+  ]
+}

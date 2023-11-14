@@ -14,9 +14,10 @@ from collections import defaultdict
 
 from processors.helper import (
     add_pileup_weight,
+    n2ddt_shift,
 )
 
-class DDTProcessor(processor.ProcessorABC):
+class TestProcessor(processor.ProcessorABC):
     def __init__(self, do_jetid=True):
         self._do_jetid = do_jetid
         
@@ -25,20 +26,14 @@ class DDTProcessor(processor.ProcessorABC):
         return {
             "sumw": defaultdict(float),
             "events": defaultdict(int),
-            "h": (
+            "cutflow": (
                     Hist.new.Reg(
-                        100, -8, -0.5, name="rho", label=r"$\rho=ln(m^2_{reg}/p_T^2)$"
-                    ).Reg(
-                        100, 250, 1350, name="pt", label=r"$p_T$ (GeV)"
-                    ).Reg(
-                        1000, 0, 1, name="n2b1", label=r"$n^2_1$"
-                    ).StrCategory(
-                         [], name="dataset", label="Dataset", growth=True
-                    ).Double()
-#                     ).Weight()
+                        10, 250, 1350, name="pt", label=r"$p_T$ (GeV)"
+                    ).IntCategory(
+                        [], name="cut", label="Cut Idx", growth=True
+                    ).Weight()
                 ),
         }
-           
         
     def process(self, events):
         
@@ -53,10 +48,10 @@ class DDTProcessor(processor.ProcessorABC):
         
         output['events'][dataset] += len(events)
         output['sumw'][dataset] += ak.sum(events.genWeight)
-#         weights.add('genweight', events.genWeight)
+        weights.add('genweight', events.genWeight)
         
-#         add_pileup_weight(events)
-#         weights.add('pileup', events['weight_pileup'])
+        add_pileup_weight(events)
+        weights.add('pileup', events['weight_pileup'])
             
         if len(events) == 0:
             return output
@@ -71,8 +66,9 @@ class DDTProcessor(processor.ProcessorABC):
                 & (fatjets.nCh > 0)
                 & (fatjets.chEmEF < 0.8)
             ]
-        fatjets["qcdrho"] = 2 * np.log(fatjets.particleNet_mass / fatjets.pt)
-#         fatjet = ak.firsts(fatjets)
+        fatjet = ak.firsts(fatjets)
+        fatjet["qcdrho"] = 2 * np.log(fatjet.particleNet_mass / fatjet.pt)
+        fatjet['n2ddt'] = fatjet.n2b1 - n2ddt_shift(fatjet)
         
         def normalise(val, cut=None):
             if cut is None:
@@ -81,21 +77,37 @@ class DDTProcessor(processor.ProcessorABC):
             else:
                 ar = ak.to_numpy(ak.fill_none(val[cut], np.nan))
                 return ar
-        
-#         output['h'].fill(
-#             dataset=dataset,
-#             n2b1 = normalise(fatjet.n2b1),
-#             pt = normalise(fatjet.pt),
-#             rho = normalise(fatjet["qcdrho"]),
-#             weight=weights.weight(),
-#         )
 
-        output['h'].fill(
-            dataset=dataset,
-            n2b1 = normalise(ak.flatten(fatjets.n2b1)),
-            pt = normalise(ak.flatten(fatjets.pt)),
-            rho = normalise(ak.flatten(fatjets["qcdrho"])),
-        )
+        selection = PackedSelection()
+        selection.add('n2ddt', (fatjet.n2ddt < 0.))
+        
+        regions = {
+            'signal': ['n2ddt'],
+        } 
+        
+        for region, cuts in regions.items():
+            if region == "noselection":
+                continue
+            allcuts = set([])
+            cut = selection.all(*allcuts)
+            weight = weights.weight()[cut]
+            
+            output['cutflow'].fill(
+                pt=normalise(fatjet.pt, cut),
+                cut=0,
+                weight=weight,
+            )
+            
+            for i, cut in enumerate(cuts):
+                allcuts.add(cut)
+                cut = selection.all(*allcuts)
+                weight = weights.weight()[cut]
+                
+                output['cutflow'].fill(
+                    pt=normalise(fatjet.pt, cut),
+                    cut=i+1,
+                    weight=weight,
+                )
 
         return output
     

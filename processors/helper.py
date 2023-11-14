@@ -3,6 +3,7 @@ import awkward as ak
 import random
 import os
 import uproot
+import pickle
 
 def run_deltar_matching(obj1, obj2, radius=0.4): # NxM , NxG arrays
     _, obj2 = ak.unzip(ak.cartesian([obj1, obj2], nested=True)) # Obj2 is now NxMxG
@@ -135,3 +136,29 @@ def add_pileup_weight(events: ak.Array, pileup_profile: str = None) -> ak.Array:
     events["weight_pileup"] = weight_pileup
     
     return events
+
+def n2ddt_shift(fatjets):
+    path_ddt_map = os.path.join(
+        os.path.dirname(__file__),
+        "../data/n2b1/ddt_map.pkl",
+    )
+    ddt_map = pickle.load(open(path_ddt_map,'rb'))
+
+    return ddt_map(fatjets.qcdrho, fatjets.pt)
+
+def getBosons(genparticles):
+        absid = abs(genparticles.pdgId)
+        return genparticles[
+            # no gluons
+            (absid >= 22)
+            & (absid <= 25)
+            & genparticles.hasFlags(['fromHardProcess', 'isLastCopy'])
+        ]
+    
+def bosonFlavour(bosons):
+    childid = abs(bosons.children.pdgId)
+    genflavor = ak.any(childid == 5, axis=-1) * 3 + ak.any(childid == 4, axis=-1) * 2 + ak.all(childid < 4, axis=-1) * 1
+    return ak.fill_none(genflavor, 0)
+
+def pn_disc(sig, bkg):
+    return ak.where((sig + bkg == 0), 0, sig / (sig + bkg))

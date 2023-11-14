@@ -1,0 +1,223 @@
+import awkward as ak
+import matplotlib.pyplot as plt
+import os, sys
+import subprocess
+import json
+import uproot
+from coffea.lookup_tools.lookup_base import lookup_base
+import numpy as np
+from coffea import processor, util
+from hist import Hist
+import hist
+from coffea.analysis_tools import Weights, PackedSelection
+from collections import defaultdict
+
+from processors.helper import (
+    add_pileup_weight,
+    n2ddt_shift,
+    getBosons,
+    bosonFlavour,
+    pn_disc,
+)
+
+class CutflowProcessor(processor.ProcessorABC):
+    def __init__(self, jet_arbitration='pt', systematics=False):
+        self._jet_arbitration = jet_arbitration
+        self._tightMatch = False
+        self._systematics = systematics
+        
+    @property
+    def accumulator(self):
+        return {
+            "sumw": defaultdict(float),
+            "events": defaultdict(int),
+            "cutflow": (
+                    Hist.new.Reg(
+                        50, 40, 201, name="reg", label=r"Regressed mass"
+                    ).Var(
+                        [300, 350, 400, 450, 500, 550, 600, 675, 800, 1200], name="pt", label=r"$p_T$ (GeV)"
+                    ).Var(
+                        [-0.1, 0.8167194, 0.95448214, 0.9864132, 1.1], name="disc", label=r"$H\rightarrow b\bar{b}$ vs QCD discriminator",
+                    ).IntCategory(
+                        [], name="genflav", label="Gen flavour", growth=True
+                    ).IntCategory(
+                        [], name="cut", label="Cut Idx", growth=True
+                    ).StrCategory(
+                        [], name="dataset", label="Dataset", growth=True
+                    ).Weight()
+                ),
+        }
+           
+    def process(self, events):
+        
+        output = self.accumulator
+        dataset = events.metadata['dataset']
+        
+        isRealData = not hasattr(events, "genWeight")
+        isQCDMC = 'QCD' in dataset
+        
+        if not isRealData:
+            events = events[
+                    (events.Pileup.nPU < 100)
+            ]
+                
+        selection = PackedSelection()
+        weights = Weights(len(events), storeIndividual=True)
+        
+        output['events'][dataset] += len(events)
+        
+        if not isRealData:
+            output['sumw'][dataset] += ak.sum(events.genWeight)
+            add_pileup_weight(events)
+            weights.add('pileup', events['weight_pileup'])
+            
+        if len(events) == 0:
+            return output
+        
+        fatjets = events.ScoutingFatJet
+        fatjets["qcdrho"] = 2 * np.log(fatjets.particleNet_mass / fatjets.pt)
+        fatjets["pn_Hbb"] = pn_disc(
+            fatjets.particleNet_prob_Hbb,
+            fatjets.particleNet_prob_QCD
+        )
+        fatjets['n2ddt'] = fatjets.n2b1 - n2ddt_shift(fatjets)
+        
+        jets = events.ScoutingJet
+        jets = jets[
+            (jets.neHEF < 0.9)
+            & (jets.neEmEF < 0.9)
+            & (jets.muEmEF < 0.8)
+            & (jets.chHEF > 0.01)
+            & (jets.nCh > 0)
+            & (jets.chEmEF < 0.8)
+        ]
+        jets["pn_b"] = pn_disc(
+            jets.particleNet_prob_b,
+            jets.particleNet_prob_g
+        )
+        
+        candidatejet = fatjets[:, :2]
+        if self._jet_arbitration == 'pt':
+            candidatejet = ak.firsts(candidatejet)
+        elif self._jet_arbitration == 'n2':
+            candidatejet = ak.firsts(candidatejet[ak.argmin(candidatejet.n2ddt, axis=1, keepdims=True)])
+        elif self._jet_arbitration == 'ddb':
+            candidatejet = ak.firsts(candidatejet[ak.argmax(candidatejet.pn_Hbb, axis=1, keepdims=True)])
+        else:
+            raise RuntimeError("Unknown candidate jet arbitration")
+                
+        if isRealData:
+            selection.add("trigger", events.L1["SingleJet180"])
+        else:
+            selection.add('trigger', np.ones(len(events), dtype='bool'))
+            
+        selection.add('minjetkin',
+            (candidatejet.pt >= 450)
+            & (candidatejet.pt < 1200)
+#             & (candidatejet.qcdrho < -1.7)
+#             & (candidatejet.qcdrho > -6.0)
+            & (abs(candidatejet.particleNet_mass) >= 40)
+            & (abs(candidatejet.particleNet_mass) < 201)
+            & (abs(candidatejet.eta) < 2.5)
+        )
+        
+        selection.add('jetid',
+            (candidatejet.neHEF < 0.9)
+            & (candidatejet.neEmEF < 0.9)
+            & (candidatejet.muEmEF < 0.8)
+            & (candidatejet.chHEF > 0.01)
+            & (candidatejet.nCh > 0)
+            & (candidatejet.chEmEF < 0.8)
+         )
+        
+        selection.add('n2ddt', (candidatejet.n2ddt < 0.))
+                
+        met = events.ScoutingMET
+        selection.add('met', met.pt < 140.)
+        
+        goodmuon = (
+            (events.ScoutingMuon.pt > 55)
+            & (abs(events.ScoutingMuon.eta) < 2.4)
+            & (abs(events.ScoutingMuon.trk_dxy) < 0.2)
+            & (abs(events.ScoutingMuon.trackIso) < 0.15)
+            & (abs(events.ScoutingMuon.trk_dz) < 0.5)
+            & (events.ScoutingMuon.normchi2 < 10)
+            & (events.ScoutingMuon.nValidRecoMuonHits > 0)
+            & (events.ScoutingMuon.nRecoMuonMatchedStations > 1)
+            & (events.ScoutingMuon.nValidPixelHits > 0)
+            & (events.ScoutingMuon.nTrackerLayersWithMeasurement > 5)
+          
+        )
+        
+        nmuons = ak.sum(goodmuon, axis=1)
+        leadingmuon = ak.firsts(events.ScoutingMuon[goodmuon])
+        
+        selection.add('noleptons', (nmuons == 0))
+        
+        selection.add('muonDphiAK8', abs(leadingmuon.delta_phi(candidatejet)) > 2*np.pi/3)
+        
+        if isRealData :
+            genflavour = ak.zeros_like(candidatejet.pt)
+        else:
+            weights.add('genweight', events.genWeight)
+
+            bosons = getBosons(events.GenPart)
+            matchedBoson = candidatejet.nearest(bosons, axis=None, threshold=0.8)
+            if self._tightMatch:
+                match_mask = ((candidatejet.pt - matchedBoson.pt)/matchedBoson.pt < 0.5) & ((candidatejet.particleNet_mass - matchedBoson.mass)/matchedBoson.mass < 0.3)
+                selmatchedBoson = ak.mask(matchedBoson, match_mask)
+                genflavour = bosonFlavour(selmatchedBoson)
+            else:
+                genflavour = bosonFlavour(matchedBoson)
+            
+        regmass_matched = candidatejet.particleNet_mass * (genflavour > 0) + candidatejet.particleNet_mass * (genflavour == 0)
+            
+        regions = {
+#             'signal': ['n2ddt'],
+            'signal': ['trigger','minjetkin','jetid','n2ddt','met','noleptons'],
+        }
+        
+        def normalise(val, cut):
+            if cut is None:
+                ar = ak.to_numpy(ak.fill_none(val, np.nan))
+                return ar
+            else:
+                ar = ak.to_numpy(ak.fill_none(val[cut], np.nan))
+                return ar
+            
+        for region, cuts in regions.items():
+            if region == "noselection":
+                continue
+            allcuts = set([])
+            cut = selection.all(*allcuts)
+            weight = weights.weight()[cut]
+            
+            output['cutflow'].fill(
+                dataset=dataset,
+                reg=normalise(regmass_matched, cut),
+                pt=normalise(candidatejet.pt, cut),
+                disc=normalise(candidatejet.pn_Hbb, cut),
+                genflav=normalise(genflavour, cut),
+                cut=0,
+                weight=weight,
+            )
+            
+            for i, cut in enumerate(cuts):
+                allcuts.add(cut)
+                cut = selection.all(*allcuts)
+                weight = weights.weight()[cut]
+                
+                output['cutflow'].fill(
+                    dataset=dataset,
+                    reg=normalise(regmass_matched, cut),
+                    pt=normalise(candidatejet.pt, cut),
+                    disc=normalise(candidatejet.pn_Hbb, cut),
+                    genflav=normalise(genflavour, cut),
+                    cut=i+1,
+                    weight=weight,
+                )
+
+        return output
+    
+    def postprocess(self, accumulator):
+        return accumulator
