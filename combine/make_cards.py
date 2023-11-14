@@ -52,7 +52,6 @@ def get_template(sName, passed, ptbin, cat, obs, syst, muon=False):
         name += 'pt'+str(ptbin)+'_'
 
     name += sName+'_'+syst
-    print(name)
 
     h = f.Get(name)
 
@@ -70,6 +69,8 @@ def plot_mctf(tf_MCtempl, regbins, name):
     """
     Plot the MC pass / fail TF as function of (pt,rho) and (pt,reg)
     """
+    import matplotlib
+    matplotlib.use('Agg')
     import matplotlib.pyplot as plt
 
     # arrays for plotting pt vs reg                    
@@ -94,12 +95,12 @@ def plot_mctf(tf_MCtempl, regbins, name):
 
     fig, ax = plt.subplots()
     h = ax.hist2d(x=df["reg"],y=df["pt"],weights=df["MCTF"], bins=(regbins,pts))
-    plt.xlabel("$m_{sd}$ [GeV]")
+    plt.xlabel("$m_{reg}$ [GeV]")
     plt.ylabel("$p_{T}$ [GeV]")
     cb = fig.colorbar(h[3],ax=ax)
     cb.set_label("Ratio")
-    fig.savefig("plots/MCTF_regpt_"+name+".png",bbox="tight")
-    fig.savefig("plots/MCTF_regpt_"+name+".pdf",bbox="tight")
+    fig.savefig("plots/MCTF_regpt_"+name+".png",bbox_inches="tight")
+    fig.savefig("plots/MCTF_regpt_"+name+".pdf",bbox_inches="tight")
     plt.clf()
 
     # arrays for plotting pt vs rho                                          
@@ -127,8 +128,8 @@ def plot_mctf(tf_MCtempl, regbins, name):
     plt.ylabel("$p_{T}$ [GeV]")
     cb = fig.colorbar(h[3],ax=ax)
     cb.set_label("Ratio")
-    fig.savefig("plots/MCTF_rhopt_"+name+".png",bbox="tight")
-    fig.savefig("plots/MCTF_rhopt_"+name+".pdf",bbox="tight")
+    fig.savefig("plots/MCTF_rhopt_"+name+".png",bbox_inches="tight")
+    fig.savefig("plots/MCTF_rhopt_"+name+".pdf",bbox_inches="tight")
 
     return
 
@@ -271,7 +272,7 @@ def example_rhalphabet(tmpdir,
         print("Fitted qcd for category " + cat)
 
         # Plot the MC P/F transfer factor                                                   
-        plot_mctf(tf_MCtempl,regbins, cat)                           
+        plot_mctf(tf_MCtempl, regbins, cat)                           
 
         param_names = [p.name for p in tf_MCtempl.parameters.reshape(-1)]
         decoVector = rl.DecorrelatedNuisanceVector.fromRooFitResult(tf_MCtempl.name + '_deco', qcdfit, param_names)
@@ -279,7 +280,7 @@ def example_rhalphabet(tmpdir,
         tf_MCtempl_params_final = tf_MCtempl(ptscaled, rhoscaled)
 
         # initial values                                                                                                                                         
-        with open('initial_vals_data_'+cat+'.json') as f:
+        with open('initial_vals_'+cat+'.json') as f:
             initial_vals_data = np.array(json.load(f)['initial_vals'])
 
         tf_dataResidual = rl.BasisPoly("tf_dataResidual_"+year+cat,
@@ -299,8 +300,8 @@ def example_rhalphabet(tmpdir,
     model = rl.Model('testModel_'+year)
 
     # exclude QCD from MC samps
-    samps = ['ggF','ZJetsqq','ZJetsbb']
-    sigs = ['ggF']
+    samps = ['ZJetsqq','ZJetsbb']
+    sigs = []
 
     for cat in cats:
         for ptbin in range(npt[cat]):
@@ -346,7 +347,6 @@ def example_rhalphabet(tmpdir,
                     ch.addSample(sample)
 
                 data_obs = get_template('data', isPass, ptbin+1, cat+'_', obs=reg, syst='nominal')
-
                 ch.setObservation(data_obs, read_sumw2=True)
 
     for cat in cats:
@@ -371,60 +371,6 @@ def example_rhalphabet(tmpdir,
                 pass_qcd = rl.TransferFactorSample('ptbin%d%spass%s_qcd' % (ptbin, cat, year), rl.Sample.BACKGROUND, tf_params[cat][ptbin, :], fail_qcd)
                 passCh.addSample(pass_qcd)
 
-                if do_muon_CR:
-                
-                    tqqpass = passCh['ttbar']
-                    tqqfail = failCh['ttbar']
-                    tqqPF = tqqpass.getExpectation(nominal=True).sum() / tqqfail.getExpectation(nominal=True).sum()
-                    tqqpass.setParamEffect(tqqeffSF, 1*tqqeffSF)
-                    tqqfail.setParamEffect(tqqeffSF, (1 - tqqeffSF) * tqqPF + 1)
-                    tqqpass.setParamEffect(tqqnormSF, 1*tqqnormSF)
-                    tqqfail.setParamEffect(tqqnormSF, 1*tqqnormSF)
-
-    # Fill in muon CR
-    if do_muon_CR:
-        templates = {}
-        samps = ['ttbar','QCD','singlet','Zjets','Zjetsbb','Wjets','VV']
-        for region in ['pass', 'fail']:
-            ch = rl.Channel('muonCR%s%s' % (region, year))
-            model.addChannel(ch)
-
-            isPass = region == 'pass'
-            print("Bin: muon cr " + region)
-
-            for sName in samps:
-
-                templates[sName] = one_bin(get_template(sName, isPass, -1, '', obs=reg, syst='nominal', muon=True))
-                nominal = templates[sName][0]
-
-                if(np.sum(nominal) < eps):
-                    print("Sample {} is too small, skipping".format(sName))
-                    continue
-
-                stype = rl.Sample.BACKGROUND
-                sample = rl.TemplateSample(ch.name + '_' + sName, stype, templates[sName])
-
-                # You need one systematic
-                sample.setParamEffect(sys_lumi_uncor, lumi[year]['uncorrelated'])
-                sample.setParamEffect(sys_lumi_cor_161718, lumi[year]['correlated'])
-                sample.setParamEffect(sys_lumi_cor_1718, lumi[year]['correlated_20172018'])
-
-                ch.addSample(sample)
-
-            # END loop over MC samples
-
-            data_obs = one_bin(get_template('muondata', isPass, -1, '', obs=reg, syst='nominal', muon=True))
-            ch.setObservation(data_obs, read_sumw2=True)
-
-        tqqpass = model['muonCRpass'+year+'_ttbar']
-        tqqfail = model['muonCRfail'+year+'_ttbar']
-        tqqPF = tqqpass.getExpectation(nominal=True).sum() / tqqfail.getExpectation(nominal=True).sum()
-        tqqpass.setParamEffect(tqqeffSF, 1*tqqeffSF)
-        tqqfail.setParamEffect(tqqeffSF, (1 - tqqeffSF) * tqqPF + 1)
-        tqqpass.setParamEffect(tqqnormSF, 1*tqqnormSF)
-        tqqfail.setParamEffect(tqqnormSF, 1*tqqnormSF)
-        
-        # END if do_muon_CR  
 
     with open(os.path.join(str(tmpdir), 'testModel_'+year+'.pkl'), 'wb') as fout:
         pickle.dump(model, fout)
@@ -435,8 +381,9 @@ if __name__ == '__main__':
 
     print("Starting to run...")
 
-    if not os.path.exists('output'):
-        os.mkdir('output')
+    for directory in ['output', 'plots']:
+        if not os.path.exists(directory):
+            os.mkdir(directory)
 
     example_rhalphabet('output')
 
