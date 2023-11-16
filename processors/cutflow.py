@@ -18,6 +18,7 @@ from processors.helper import (
     getBosons,
     bosonFlavour,
     pn_disc,
+    get_lumi,
 )
 
 class CutflowProcessor(processor.ProcessorABC):
@@ -29,6 +30,7 @@ class CutflowProcessor(processor.ProcessorABC):
     @property
     def accumulator(self):
         return {
+            "lumi": defaultdict(float),
             "sumw": defaultdict(float),
             "events": defaultdict(int),
             "cutflow": (
@@ -65,6 +67,9 @@ class CutflowProcessor(processor.ProcessorABC):
         weights = Weights(len(events), storeIndividual=True)
         
         output['events'][dataset] += len(events)
+        
+        if isRealData:
+            output['lumi'][dataset] += get_lumi(events.run, events.luminosityBlock)
         
         if not isRealData:
             output['sumw'][dataset] += ak.sum(events.genWeight)
@@ -107,7 +112,7 @@ class CutflowProcessor(processor.ProcessorABC):
             raise RuntimeError("Unknown candidate jet arbitration")
                 
         if isRealData:
-            selection.add("trigger", events.L1["SingleJet180"])
+            selection.add("trigger", (events.L1["SingleJet180"] | events.L1["HTT360er"]))
         else:
             selection.add('trigger', np.ones(len(events), dtype='bool'))
             

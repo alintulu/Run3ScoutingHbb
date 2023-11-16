@@ -4,6 +4,7 @@ import random
 import os
 import uproot
 import pickle
+from coffea.lumi_tools import LumiData, LumiList
 
 def run_deltar_matching(obj1, obj2, radius=0.4): # NxM , NxG arrays
     _, obj2 = ak.unzip(ak.cartesian([obj1, obj2], nested=True)) # Obj2 is now NxMxG
@@ -162,3 +163,12 @@ def bosonFlavour(bosons):
 
 def pn_disc(sig, bkg):
     return ak.where((sig + bkg == 0), 0, sig / (sig + bkg))
+
+def get_lumi(run, luminosityBlock):
+    path_lumi_csv = os.path.join(
+        os.path.dirname(__file__),
+        "../data/lumi/Cert_Collisions2022_355100_362760_Golden.csv",
+    )
+    lumidata = LumiData(path_lumi_csv)
+    lumi_list = LumiList(runs=run, lumis=luminosityBlock)
+    return lumidata.get_lumi(lumi_list)
