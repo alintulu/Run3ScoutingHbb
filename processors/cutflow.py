@@ -11,6 +11,8 @@ from hist import Hist
 import hist
 from coffea.analysis_tools import Weights, PackedSelection
 from collections import defaultdict
+from coffea.lumi_tools import LumiList
+from processors.accumulator import LumiAccumulator
 
 from processors.helper import (
     add_pileup_weight,
@@ -31,6 +33,7 @@ class CutflowProcessor(processor.ProcessorABC):
     def accumulator(self):
         return {
             "lumi": defaultdict(float),
+            "lumiacc": defaultdict(float),
             "sumw": defaultdict(float),
             "events": defaultdict(int),
             "cutflow": (
@@ -70,6 +73,7 @@ class CutflowProcessor(processor.ProcessorABC):
         
         if isRealData:
             output['lumi'][dataset] += get_lumi(events.run, events.luminosityBlock)
+            output['lumiacc'][dataset] += LumiAccumulator(events.run, events.luminosityBlock, auto_unique=True)
         
         if not isRealData:
             output['sumw'][dataset] += ak.sum(events.genWeight)
