@@ -4,6 +4,7 @@ import random
 import os
 import uproot
 import pickle
+from coffea.lumi_tools import LumiData, LumiList
 
 def run_deltar_matching(obj1, obj2, radius=0.4): # NxM , NxG arrays
     _, obj2 = ak.unzip(ak.cartesian([obj1, obj2], nested=True)) # Obj2 is now NxMxG

@@ -76,7 +76,7 @@ for this_file in infiles:
     output = processor.run_uproot_job(
                 this_file,
                 "Events",
-                processor_instance=CutflowProcessor(jet_arbitration='pt', systematics=False),
+                processor_instance=CutflowProcessor(jet_arbitration='ddb', systematics=False),
                 executor=processor.dask_executor,
                 executor_args={
                     "schema": ScoutingNanoAODSchema,

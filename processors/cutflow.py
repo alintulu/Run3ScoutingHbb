@@ -11,17 +11,24 @@ from hist import Hist
 import hist
 from coffea.analysis_tools import Weights, PackedSelection
 from collections import defaultdict
+from coffea.lumi_tools import LumiList
+from processors.lumiacc import LumiAccumulator
 
 from processors.helper import (
     add_pileup_weight,
-    n2ddt_shift,
     getBosons,
     bosonFlavour,
     pn_disc,
 )
 
+from processors.correction import (
+    n2ddt_shift,
+    correct_met,
+)
+
 class CutflowProcessor(processor.ProcessorABC):
-    def __init__(self, jet_arbitration='pt', systematics=False):
+    def __init__(self, year="2022", jet_arbitration='pt', systematics=False):
+        self._year = year
         self._jet_arbitration = jet_arbitration
         self._tightMatch = False
         self._systematics = systematics
@@ -29,15 +36,16 @@ class CutflowProcessor(processor.ProcessorABC):
     @property
     def accumulator(self):
         return {
+            "lumilist": {},
             "sumw": defaultdict(float),
             "events": defaultdict(int),
-            "cutflow": (
+            "hist": (
                     Hist.new.Reg(
-                        50, 40, 201, name="reg", label=r"Regressed mass"
+                        23, 40, 201, name="reg", label=r"Regressed mass"
                     ).Var(
                         [300, 350, 400, 450, 500, 550, 600, 675, 800, 1200], name="pt", label=r"$p_T$ (GeV)"
                     ).Var(
-                        [-0.1, 0.8167194, 0.95448214, 0.9864132, 1.1], name="disc", label=r"$H\rightarrow b\bar{b}$ vs QCD discriminator",
+                        [-0.1, 0.8167194, 0.95448214, 0.9864132, 0.9967, 1.1], name="disc", label=r"$H\rightarrow b\bar{b}$ vs QCD discriminator",
                     ).IntCategory(
                         [], name="genflav", label="Gen flavour", growth=True
                     ).IntCategory(
@@ -65,6 +73,10 @@ class CutflowProcessor(processor.ProcessorABC):
         weights = Weights(len(events), storeIndividual=True)
         
         output['events'][dataset] += len(events)
+        
+        if isRealData:
+            lumi_list = LumiAccumulator(events.run, events.luminosityBlock, auto_unique=True)
+            output['lumilist'] = {dataset : lumi_list}
         
         if not isRealData:
             output['sumw'][dataset] += ak.sum(events.genWeight)
@@ -107,12 +119,12 @@ class CutflowProcessor(processor.ProcessorABC):
             raise RuntimeError("Unknown candidate jet arbitration")
                 
         if isRealData:
-            selection.add("trigger", events.L1["SingleJet180"])
+            selection.add("trigger", (events.L1["SingleJet180"] | events.L1["HTT360er"]))
         else:
             selection.add('trigger', np.ones(len(events), dtype='bool'))
             
         selection.add('minjetkin',
-            (candidatejet.pt >= 450)
+            (candidatejet.pt >= 300)
             & (candidatejet.pt < 1200)
 #             & (candidatejet.qcdrho < -1.7)
 #             & (candidatejet.qcdrho > -6.0)
@@ -131,12 +143,16 @@ class CutflowProcessor(processor.ProcessorABC):
          )
         
         selection.add('n2ddt', (candidatejet.n2ddt < 0.))
-                
-        met = events.ScoutingMET
-        selection.add('met', met.pt < 140.)
+        
+        if isRealData:
+            era = dataset.split(self._year, 1)[1][0]
+            corrected_met = correct_met(events.ScoutingMET, events.ScoutingPrimaryVertex, self._year, era)
+            selection.add('met', corrected_met.pt < 140.)
+        else:
+            selection.add('met', events.ScoutingMET.pt < 140.)
         
         goodmuon = (
-            (events.ScoutingMuon.pt > 55)
+            (events.ScoutingMuon.pt > 10)
             & (abs(events.ScoutingMuon.eta) < 2.4)
             & (abs(events.ScoutingMuon.trk_dxy) < 0.2)
             & (abs(events.ScoutingMuon.trackIso) < 0.15)
@@ -146,13 +162,23 @@ class CutflowProcessor(processor.ProcessorABC):
             & (events.ScoutingMuon.nRecoMuonMatchedStations > 1)
             & (events.ScoutingMuon.nValidPixelHits > 0)
             & (events.ScoutingMuon.nTrackerLayersWithMeasurement > 5)
-          
+        )
+ 
+        goodelectron = (
+            (events.ScoutingElectron.pt > 10)
+            & (abs(events.ScoutingElectron.eta) < 2.4)
+            & (events.ScoutingElectron.sigmaIetaIeta < 0.0103)
+            & (abs(events.ScoutingElectron.dPhiIn) < 0.127)
+            & (abs(events.ScoutingElectron.dEtaIn) < 0.00481)
+            & (abs(events.ScoutingElectron.ooEMOop) < 0.0966)
+            & (events.ScoutingElectron.missingHits <= 1)
         )
         
         nmuons = ak.sum(goodmuon, axis=1)
+        nelectrons = ak.sum(goodelectron, axis=1)
         leadingmuon = ak.firsts(events.ScoutingMuon[goodmuon])
         
-        selection.add('noleptons', (nmuons == 0))
+        selection.add('noleptons', (nmuons == 0) & (nelectrons == 0))
         
         selection.add('muonDphiAK8', abs(leadingmuon.delta_phi(candidatejet)) > 2*np.pi/3)
         
@@ -192,7 +218,7 @@ class CutflowProcessor(processor.ProcessorABC):
             cut = selection.all(*allcuts)
             weight = weights.weight()[cut]
             
-            output['cutflow'].fill(
+            output['hist'].fill(
                 dataset=dataset,
                 reg=normalise(regmass_matched, cut),
                 pt=normalise(candidatejet.pt, cut),
@@ -207,7 +233,7 @@ class CutflowProcessor(processor.ProcessorABC):
                 cut = selection.all(*allcuts)
                 weight = weights.weight()[cut]
                 
-                output['cutflow'].fill(
+                output['hist'].fill(
                     dataset=dataset,
                     reg=normalise(regmass_matched, cut),
                     pt=normalise(candidatejet.pt, cut),
