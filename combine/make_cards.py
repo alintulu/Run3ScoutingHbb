@@ -74,9 +74,9 @@ def plot_mctf(tf_MCtempl, regbins, name):
     import matplotlib.pyplot as plt
 
     # arrays for plotting pt vs reg                    
-    pts = np.linspace(450,1200,15)
+    pts = np.linspace(350,1200,15)
     ptpts, regpts = np.meshgrid(pts[:-1] + 0.5 * np.diff(pts), regbins[:-1] + 0.5 * np.diff(regbins), indexing='ij')
-    ptpts_scaled = (ptpts - 450.) / (1200. - 450.)
+    ptpts_scaled = (ptpts - 350.) / (1200. - 350.)
     rhopts = 2*np.log(regpts/ptpts)
 
     rhopts_scaled = (rhopts - (-6)) / ((-2.1) - (-6))
@@ -106,7 +106,7 @@ def plot_mctf(tf_MCtempl, regbins, name):
     # arrays for plotting pt vs rho                                          
     rhos = np.linspace(-6,-2.1,23)
     ptpts, rhopts = np.meshgrid(pts[:-1] + 0.5*np.diff(pts), rhos[:-1] + 0.5 * np.diff(rhos), indexing='ij')
-    ptpts_scaled = (ptpts - 450.) / (1200. - 450.)
+    ptpts_scaled = (ptpts - 350.) / (1200. - 350.)
     rhopts_scaled = (rhopts - (-6)) / ((-2.1) - (-6))
     validbins = (rhopts_scaled >= 0) & (rhopts_scaled <= 1)
 
@@ -148,12 +148,12 @@ def example_rhalphabet(tmpdir,
 
     # define bins    
     ptbins = {}
-    ptbins['ggf'] = np.array([450, 1200])
+    ptbins['ggf'] = np.array([350, 1200])
 
     npt = {}
     npt['ggf'] = len(ptbins['ggf']) - 1
 
-    regbins = np.linspace(40, 201, 51)
+    regbins = np.linspace(40, 201, 26)
     reg = rl.Observable('reg', regbins)
 
     validbins = {}
@@ -170,7 +170,7 @@ def example_rhalphabet(tmpdir,
         # here we derive these all at once with 2D array                            
         ptpts, regpts = np.meshgrid(ptbins[cat][:-1] + 0.3 * np.diff(ptbins[cat]), regbins[:-1] + 0.5 * np.diff(regbins), indexing='ij')
         rhopts = 2*np.log(regpts/ptpts)
-        ptscaled = (ptpts - 450.) / (1200. - 450.)
+        ptscaled = (ptpts - 350.) / (1200. - 350.)
         rhoscaled = (rhopts - (-6)) / ((-2.1) - (-6))
         validbins[cat] = (rhoscaled >= 0) & (rhoscaled <= 1)
         rhoscaled[~validbins[cat]] = 1  # we will mask these out later   
@@ -294,14 +294,12 @@ def example_rhalphabet(tmpdir,
         tf_dataResidual_params = tf_dataResidual(ptscaled, rhoscaled)
         tf_params[cat] = qcdeff * tf_MCtempl_params_final * tf_dataResidual_params
 
-    return
-
     # build actual fit model now
     model = rl.Model('testModel_'+year)
 
     # exclude QCD from MC samps
-    samps = ['ZJetsqq','ZJetsbb']
-    sigs = []
+    samps = ['ZJetsqq', 'ZJetsbb', 'TTbar', 'W', 'ggF', 'VBF', 'ZH', 'WH', 'ttH']
+    sigs = ['ggF']
 
     for cat in cats:
         for ptbin in range(npt[cat]):
