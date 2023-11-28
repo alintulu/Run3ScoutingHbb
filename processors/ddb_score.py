@@ -26,7 +26,7 @@ from processors.correction import (
     correct_met,
 )
 
-class CutflowProcessor(processor.ProcessorABC):
+class DDBScoreProcessor(processor.ProcessorABC):
     def __init__(self, year="2022", jet_arbitration='pt', systematics=False):
         self._year = year
         self._jet_arbitration = jet_arbitration
@@ -41,15 +41,11 @@ class CutflowProcessor(processor.ProcessorABC):
             "events": defaultdict(int),
             "hist": (
                     Hist.new.Reg(
-                        23, 40, 201, name="reg", label=r"Regressed mass"
+                        1000, 0.9, 1, name="disc", label=r"$H\rightarrow b\bar{b}$ vs QCD discriminator"
                     ).Var(
                         [300, 350, 400, 450, 500, 550, 600, 675, 800, 1200], name="pt", label=r"$p_T$ (GeV)"
                     ).Var(
-                        [-0.1, 0.8167194, 0.95448214, 0.9864132, 0.9967, 1.1], name="disc", label=r"$H\rightarrow b\bar{b}$ vs QCD discriminator",
-                    ).IntCategory(
-                        [], name="genflav", label="Gen flavour", growth=True
-                    ).IntCategory(
-                        [], name="cut", label="Cut Idx", growth=True
+                        [40, 110, 139, 201], name="reg", label=r"Regressed mass (GeV)"
                     ).StrCategory(
                         [], name="dataset", label="Dataset", growth=True
                     ).Weight()
@@ -214,34 +210,16 @@ class CutflowProcessor(processor.ProcessorABC):
         for region, cuts in regions.items():
             if region == "noselection":
                 continue
-            allcuts = set([])
-            cut = selection.all(*allcuts)
+            cut = selection.all(*cuts)
             weight = weights.weight()[cut]
             
             output['hist'].fill(
-                dataset=dataset,
                 reg=normalise(regmass_matched, cut),
+                dataset=dataset,
                 pt=normalise(candidatejet.pt, cut),
                 disc=normalise(candidatejet.pn_Hbb, cut),
-                genflav=normalise(genflavour, cut),
-                cut=0,
                 weight=weight,
             )
-            
-            for i, cut in enumerate(cuts):
-                allcuts.add(cut)
-                cut = selection.all(*allcuts)
-                weight = weights.weight()[cut]
-                
-                output['hist'].fill(
-                    dataset=dataset,
-                    reg=normalise(regmass_matched, cut),
-                    pt=normalise(candidatejet.pt, cut),
-                    disc=normalise(candidatejet.pn_Hbb, cut),
-                    genflav=normalise(genflavour, cut),
-                    cut=i+1,
-                    weight=weight,
-                )
 
         return output
     

@@ -163,12 +163,3 @@ def bosonFlavour(bosons):
 
 def pn_disc(sig, bkg):
     return ak.where((sig + bkg == 0), 0, sig / (sig + bkg))
-
-def get_lumi(run, luminosityBlock):
-    path_lumi_csv = os.path.join(
-        os.path.dirname(__file__),
-        "../data/lumi/Cert_Collisions2022_355100_362760_Golden.csv",
-    )
-    lumidata = LumiData(path_lumi_csv)
-    lumi_list = LumiList(runs=run, lumis=luminosityBlock)
-    return lumidata.get_lumi(lumi_list)

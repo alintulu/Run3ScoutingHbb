@@ -4,7 +4,7 @@ import socket
 
 from dask.distributed import performance_report
 
-from processors import CutflowProcessor
+from processors import DDBScoreProcessor
 import os, sys, subprocess
 import uproot
 from coffea import processor, util
@@ -61,8 +61,11 @@ infiles = subprocess.getoutput("ls inputfiles/Run3Summer22EE/*.json").split()
 
 for this_file in infiles:
 
+    if "ScoutingPFRun3" in this_file:
+        continue
+
     index = this_file.split("/")[-1].split(".json")[0]
-    outfile = f'outfiles/Run3Summer22EE/cutflow/dask_{index}.coffea'
+    outfile = f'outfiles/Run3Summer22EE/dbb_score/1000_bins/dask_{index}.coffea'
     
     if os.path.isfile(outfile):
         print("File " + outfile + " already exists. Skipping.")
@@ -76,7 +79,7 @@ for this_file in infiles:
     output = processor.run_uproot_job(
                 this_file,
                 "Events",
-                processor_instance=CutflowProcessor(jet_arbitration='ddb', systematics=False),
+                processor_instance=DDBScoreProcessor(jet_arbitration='ddb', systematics=False),
                 executor=processor.dask_executor,
                 executor_args={
                     "schema": ScoutingNanoAODSchema,
