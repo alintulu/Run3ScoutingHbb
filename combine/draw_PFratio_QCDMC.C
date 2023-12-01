@@ -16,7 +16,7 @@ void draw_PFratio_QCDMC(){
   string year = "2022";
 
   vector<string> procs = {"ggf"};
-  vector<int> nptbins = {1};
+  vector<int> nptbins = {5};
 
   for(int j=0; j<procs.size(); j++){
     for(int i=0; i<nptbins.at(j); i++){
