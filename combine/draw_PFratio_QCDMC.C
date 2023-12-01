@@ -16,7 +16,7 @@ void draw_PFratio_QCDMC(){
   string year = "2022";
 
   vector<string> procs = {"ggf"};
-  vector<int> nptbins = {1};
+  vector<int> nptbins = {5};
 
   for(int j=0; j<procs.size(); j++){
     for(int i=0; i<nptbins.at(j); i++){
@@ -29,7 +29,7 @@ void draw_PFratio_QCDMC(){
 	
 	TCanvas *c1 = new TCanvas(("c_"+procs.at(j)+"_"+to_string(i)).c_str(), 
 				  ("c_"+procs.at(j)+"_"+to_string(i)).c_str(), 600, 600);
-	RooPlot* frame1 = (*w->var("reg")).frame(50);
+	RooPlot* frame1 = (*w->var("reg")).frame(25);
 
 	string bin = "ptbin"+to_string(i)+procs.at(j);
 	cout << bin << endl;

@@ -74,12 +74,12 @@ def plot_mctf(tf_MCtempl, regbins, name):
     import matplotlib.pyplot as plt
 
     # arrays for plotting pt vs reg                    
-    pts = np.linspace(450,1200,15)
+    pts = np.linspace(300,1200,15)
     ptpts, regpts = np.meshgrid(pts[:-1] + 0.5 * np.diff(pts), regbins[:-1] + 0.5 * np.diff(regbins), indexing='ij')
-    ptpts_scaled = (ptpts - 450.) / (1200. - 450.)
+    ptpts_scaled = (ptpts - 300.) / (1200. - 300.)
     rhopts = 2*np.log(regpts/ptpts)
 
-    rhopts_scaled = (rhopts - (-6)) / ((-2.1) - (-6))
+    rhopts_scaled = (rhopts - (-6)) / ((-1.7) - (-6))
     validbins = (rhopts_scaled >= 0) & (rhopts_scaled <= 1)
 
     ptpts = ptpts[validbins]
@@ -104,10 +104,10 @@ def plot_mctf(tf_MCtempl, regbins, name):
     plt.clf()
 
     # arrays for plotting pt vs rho                                          
-    rhos = np.linspace(-6,-2.1,23)
+    rhos = np.linspace(-6,-1.7,23)
     ptpts, rhopts = np.meshgrid(pts[:-1] + 0.5*np.diff(pts), rhos[:-1] + 0.5 * np.diff(rhos), indexing='ij')
-    ptpts_scaled = (ptpts - 450.) / (1200. - 450.)
-    rhopts_scaled = (rhopts - (-6)) / ((-2.1) - (-6))
+    ptpts_scaled = (ptpts - 300.) / (1200. - 300.)
+    rhopts_scaled = (rhopts - (-6)) / ((-1.7) - (-6))
     validbins = (rhopts_scaled >= 0) & (rhopts_scaled <= 1)
 
     ptpts = ptpts[validbins]
@@ -143,17 +143,17 @@ def example_rhalphabet(tmpdir,
 
     # Simple lumi systematics                                                                                                                                                            
     sys_lumi_uncor = rl.NuisanceParameter('CMS_lumi_13TeV_2016', 'lnN')
-    sys_lumi_cor_161718 = rl.NuisanceParameter('CMS_lumi_13TeV_correlated_', 'lnN')
-    sys_lumi_cor_1718 = rl.NuisanceParameter('CMS_lumi_13TeV_correlated_20172018', 'lnN')
 
     # define bins    
     ptbins = {}
-    ptbins['ggf'] = np.array([450, 1200])
+    ptbins['ggf'] = np.array([300, 350, 400, 450, 500, 1200])
+    #ptbins['ggf'] = np.array([300, 350, 400, 450, 500, 550, 600, 675, 800, 1200])
+    #ptbins['ggf'] = np.array([300, 1200])
 
     npt = {}
     npt['ggf'] = len(ptbins['ggf']) - 1
 
-    regbins = np.linspace(40, 201, 51)
+    regbins = np.linspace(40, 201, 24)
     reg = rl.Observable('reg', regbins)
 
     validbins = {}
@@ -170,8 +170,8 @@ def example_rhalphabet(tmpdir,
         # here we derive these all at once with 2D array                            
         ptpts, regpts = np.meshgrid(ptbins[cat][:-1] + 0.3 * np.diff(ptbins[cat]), regbins[:-1] + 0.5 * np.diff(regbins), indexing='ij')
         rhopts = 2*np.log(regpts/ptpts)
-        ptscaled = (ptpts - 450.) / (1200. - 450.)
-        rhoscaled = (rhopts - (-6)) / ((-2.1) - (-6))
+        ptscaled = (ptpts - 300.) / (1200. - 300.)
+        rhoscaled = (rhopts - (-6)) / ((-1.7) - (-6))
         validbins[cat] = (rhoscaled >= 0) & (rhoscaled <= 1)
         rhoscaled[~validbins[cat]] = 1  # we will mask these out later   
 
@@ -209,9 +209,9 @@ def example_rhalphabet(tmpdir,
             tf_MCtempl = rl.BasisPoly("tf_MCtempl_"+cat+year,
                                       (initial_vals.shape[0]-1,initial_vals.shape[1]-1),
                                       ['pt', 'rho'], 
-                                      basis='Bernstein',
                                       init_params=initial_vals,
-                                      limits=(-10, 10), coefficient_transform=None)
+                                      basis='Bernstein',
+                                      limits=(-20, 20), coefficient_transform=None)
 
             tf_MCtempl_params = qcdeff * tf_MCtempl(ptscaled, rhoscaled)
 
@@ -280,28 +280,25 @@ def example_rhalphabet(tmpdir,
         tf_MCtempl_params_final = tf_MCtempl(ptscaled, rhoscaled)
 
         # initial values                                                                                                                                         
-        with open('initial_vals_'+cat+'.json') as f:
+        with open('initial_vals_data_'+cat+'.json') as f:
             initial_vals_data = np.array(json.load(f)['initial_vals'])
 
         tf_dataResidual = rl.BasisPoly("tf_dataResidual_"+year+cat,
                                        (initial_vals_data.shape[0]-1,initial_vals_data.shape[1]-1), 
                                        ['pt', 'rho'], 
-                                       basis='Bernstein',
                                        init_params=initial_vals_data,
-                                       limits=(-20,20), 
-                                       coefficient_transform=None)
+                                       basis='Bernstein',
+                                       limits=(-20,20), coefficient_transform=None)
 
         tf_dataResidual_params = tf_dataResidual(ptscaled, rhoscaled)
         tf_params[cat] = qcdeff * tf_MCtempl_params_final * tf_dataResidual_params
-
-    return
 
     # build actual fit model now
     model = rl.Model('testModel_'+year)
 
     # exclude QCD from MC samps
-    samps = ['ZJetsqq','ZJetsbb']
-    sigs = []
+    samps = ['ZJetsqq', 'ZJetsbb', 'TTbar', 'W', 'VV', 'ggF', 'VBF', 'ZH', 'WH', 'ttH']
+    sigs = ['ggF']
 
     for cat in cats:
         for ptbin in range(npt[cat]):
@@ -338,11 +335,10 @@ def example_rhalphabet(tmpdir,
                         stype = rl.Sample.BACKGROUND
                 
                     sample = rl.TemplateSample(ch.name + '_' + sName, stype, templ)
+                    #sample.autoMCStats(lnN=True)
 
                     # You need one systematic
                     sample.setParamEffect(sys_lumi_uncor, 1.010)
-                    sample.setParamEffect(sys_lumi_cor_161718, 1.006)
-                    sample.setParamEffect(sys_lumi_cor_1718, 0)
 
                     ch.addSample(sample)
 
