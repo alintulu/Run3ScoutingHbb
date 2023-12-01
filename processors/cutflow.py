@@ -196,7 +196,8 @@ class CutflowProcessor(processor.ProcessorABC):
             else:
                 genflavour = bosonFlavour(matchedBoson)
             
-        regmass_matched = candidatejet.particleNet_mass * (genflavour > 0) + candidatejet.particleNet_mass * (genflavour == 0)
+        #regmass_matched = candidatejet.particleNet_mass * (genflavour > 0) + candidatejet.particleNet_mass * (genflavour == 0)
+        softdropmass_matched = candidatejet.msoftdrop * (genflavour > 0) + candidatejet.msoftdrop * (genflavour == 0)
             
         regions = {
 #             'signal': ['n2ddt'],
@@ -220,7 +221,7 @@ class CutflowProcessor(processor.ProcessorABC):
             
             output['hist'].fill(
                 dataset=dataset,
-                reg=normalise(regmass_matched, cut),
+                reg=normalise(softdropmass_matched, cut),
                 pt=normalise(candidatejet.pt, cut),
                 disc=normalise(candidatejet.pn_Hbb, cut),
                 genflav=normalise(genflavour, cut),
@@ -235,7 +236,7 @@ class CutflowProcessor(processor.ProcessorABC):
                 
                 output['hist'].fill(
                     dataset=dataset,
-                    reg=normalise(regmass_matched, cut),
+                    reg=normalise(softdropmass_matched, cut),
                     pt=normalise(candidatejet.pt, cut),
                     disc=normalise(candidatejet.pn_Hbb, cut),
                     genflav=normalise(genflavour, cut),

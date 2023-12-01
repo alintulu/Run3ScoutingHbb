@@ -34,8 +34,7 @@ class DDTProcessor(processor.ProcessorABC):
                         1000, 0, 1, name="n2b1", label=r"$n^2_1$"
                     ).StrCategory(
                          [], name="dataset", label="Dataset", growth=True
-                    ).Double()
-#                     ).Weight()
+                    ).Weight()
                 ),
         }
            
@@ -53,15 +52,17 @@ class DDTProcessor(processor.ProcessorABC):
         
         output['events'][dataset] += len(events)
         output['sumw'][dataset] += ak.sum(events.genWeight)
-#         weights.add('genweight', events.genWeight)
+        weights.add('genweight', events.genWeight)
         
-#         add_pileup_weight(events)
-#         weights.add('pileup', events['weight_pileup'])
+        add_pileup_weight(events)
+        weights.add('pileup', events['weight_pileup'])
             
         if len(events) == 0:
             return output
-        
-        fatjets = events.ScoutingFatJet
+                
+        fatjets = events.ScoutingFatJet                                      
+        fatjets['weight'] = ak.broadcast_arrays(weights.weight(), fatjets.pt)[0]                                                            
+                                                                     
         if self._do_jetid:
             fatjets = fatjets[
                 (fatjets.neHEF < 0.9)
@@ -95,6 +96,7 @@ class DDTProcessor(processor.ProcessorABC):
             n2b1 = normalise(ak.flatten(fatjets.n2b1)),
             pt = normalise(ak.flatten(fatjets.pt)),
             rho = normalise(ak.flatten(fatjets["qcdrho"])),
+            weight = normalise(ak.flatten(fatjets["weight"])),
         )
 
         return output
