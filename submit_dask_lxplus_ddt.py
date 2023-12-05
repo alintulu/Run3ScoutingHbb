@@ -4,7 +4,7 @@ import socket
 
 from dask.distributed import performance_report
 
-from processors import DDTProcessor
+from processors import DDTProcessor, DDTCoffeaProcessor
 import os, sys, subprocess
 import uproot
 from coffea import processor, util
@@ -76,7 +76,7 @@ for this_file in infiles:
     output = processor.run_uproot_job(
                 this_file,
                 "Events",
-                processor_instance=DDTProcessor(do_jetid=True),
+                processor_instance=DDTProcessor(do_jetid=True, mass='particleNet_mass'),
                 executor=processor.dask_executor,
                 executor_args={
                     "schema": ScoutingNanoAODSchema,

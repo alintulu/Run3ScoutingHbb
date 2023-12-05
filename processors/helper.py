@@ -138,15 +138,6 @@ def add_pileup_weight(events: ak.Array, pileup_profile: str = None) -> ak.Array:
     
     return events
 
-def n2ddt_shift(fatjets):
-    path_ddt_map = os.path.join(
-        os.path.dirname(__file__),
-        "../data/n2b1/ddt_map.pkl",
-    )
-    ddt_map = pickle.load(open(path_ddt_map,'rb'))
-
-    return ddt_map(fatjets.qcdrho, fatjets.pt)
-
 def getBosons(genparticles):
         absid = abs(genparticles.pdgId)
         return genparticles[

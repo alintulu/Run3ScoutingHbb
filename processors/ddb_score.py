@@ -27,11 +27,13 @@ from processors.correction import (
 )
 
 class DDBScoreProcessor(processor.ProcessorABC):
-    def __init__(self, year="2022", jet_arbitration='pt', systematics=False):
+    def __init__(self, year="2022", jet_arbitration='pt', systematics=False, mass='particleNet_mass'):
         self._year = year
         self._jet_arbitration = jet_arbitration
         self._tightMatch = False
         self._systematics = systematics
+        self._mass = mass
+        self._ddt_map = "ddt_msd_map.pkl" if "soft" in mass else "ddt_map.pkl"
         
     @property
     def accumulator(self):
@@ -43,9 +45,9 @@ class DDBScoreProcessor(processor.ProcessorABC):
                     Hist.new.Reg(
                         1000, 0.9, 1, name="disc", label=r"$H\rightarrow b\bar{b}$ vs QCD discriminator"
                     ).Var(
-                        [300, 350, 400, 450, 500, 550, 600, 675, 800, 1200], name="pt", label=r"$p_T$ (GeV)"
+                        [40, 110, 139, 201], name="mass", label=r"Mass (GeV)"
                     ).Var(
-                        [40, 110, 139, 201], name="reg", label=r"Regressed mass (GeV)"
+                        [300, 350, 400, 450, 500, 550, 600, 675, 800, 1200], name="pt", label=r"$p_T$ (GeV)"
                     ).StrCategory(
                         [], name="dataset", label="Dataset", growth=True
                     ).Weight()
@@ -83,12 +85,12 @@ class DDBScoreProcessor(processor.ProcessorABC):
             return output
         
         fatjets = events.ScoutingFatJet
-        fatjets["qcdrho"] = 2 * np.log(fatjets.particleNet_mass / fatjets.pt)
+        fatjets["qcdrho"] = 2 * np.log(fatjets[self._mass] / fatjets.pt)
         fatjets["pn_Hbb"] = pn_disc(
             fatjets.particleNet_prob_Hbb,
             fatjets.particleNet_prob_QCD
         )
-        fatjets['n2ddt'] = fatjets.n2b1 - n2ddt_shift(fatjets)
+        fatjets['n2ddt'] = fatjets.n2b1 - n2ddt_shift(fatjets, self._ddt_map)
         
         jets = events.ScoutingJet
         jets = jets[
@@ -124,8 +126,8 @@ class DDBScoreProcessor(processor.ProcessorABC):
             & (candidatejet.pt < 1200)
 #             & (candidatejet.qcdrho < -1.7)
 #             & (candidatejet.qcdrho > -6.0)
-            & (abs(candidatejet.particleNet_mass) >= 40)
-            & (abs(candidatejet.particleNet_mass) < 201)
+            & (abs(candidatejet[self._mass]) >= 40)
+            & (abs(candidatejet[self._mass]) < 201)
             & (abs(candidatejet.eta) < 2.5)
         )
         
@@ -186,17 +188,17 @@ class DDBScoreProcessor(processor.ProcessorABC):
             bosons = getBosons(events.GenPart)
             matchedBoson = candidatejet.nearest(bosons, axis=None, threshold=0.8)
             if self._tightMatch:
-                match_mask = ((candidatejet.pt - matchedBoson.pt)/matchedBoson.pt < 0.5) & ((candidatejet.particleNet_mass - matchedBoson.mass)/matchedBoson.mass < 0.3)
+                match_mask = ((candidatejet.pt - matchedBoson.pt)/matchedBoson.pt < 0.5) & ((candidatejet[self._mass] - matchedBoson.mass)/matchedBoson.mass < 0.3)
                 selmatchedBoson = ak.mask(matchedBoson, match_mask)
                 genflavour = bosonFlavour(selmatchedBoson)
             else:
                 genflavour = bosonFlavour(matchedBoson)
             
-        regmass_matched = candidatejet.particleNet_mass * (genflavour > 0) + candidatejet.particleNet_mass * (genflavour == 0)
+        mass_matched = candidatejet[self._mass] * (genflavour > 0) + candidatejet[self._mass] * (genflavour == 0)
             
         regions = {
 #             'signal': ['n2ddt'],
-            'signal': ['trigger','minjetkin','jetid','n2ddt','met','noleptons'],
+            'signal': ['trigger','minjetkin','jetid','met','noleptons'],
         }
         
         def normalise(val, cut):
@@ -206,15 +208,23 @@ class DDBScoreProcessor(processor.ProcessorABC):
             else:
                 ar = ak.to_numpy(ak.fill_none(val[cut], np.nan))
                 return ar
-            
+
+        def normalise(val, cut):
+            if cut is None:
+                ar = ak.to_numpy(ak.fill_none(val, np.nan))
+                return ar
+            else:
+                ar = ak.to_numpy(ak.fill_none(val[cut], np.nan))
+                return ar
+
         for region, cuts in regions.items():
             if region == "noselection":
                 continue
             cut = selection.all(*cuts)
             weight = weights.weight()[cut]
-            
+
             output['hist'].fill(
-                reg=normalise(regmass_matched, cut),
+                mass=normalise(mass_matched, cut),
                 dataset=dataset,
                 pt=normalise(candidatejet.pt, cut),
                 disc=normalise(candidatejet.pn_Hbb, cut),

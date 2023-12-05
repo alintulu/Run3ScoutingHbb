@@ -27,11 +27,13 @@ from processors.correction import (
 )
 
 class CutflowProcessor(processor.ProcessorABC):
-    def __init__(self, year="2022", jet_arbitration='pt', systematics=False):
+    def __init__(self, year="2022", jet_arbitration='pt', systematics=False, mass='particleNet_mass'):
         self._year = year
         self._jet_arbitration = jet_arbitration
         self._tightMatch = False
         self._systematics = systematics
+        self._mass = mass
+        self._ddt_map = "ddt_msd_map.pkl" if "soft" in mass else "ddt_map.pkl"
         
     @property
     def accumulator(self):
@@ -41,11 +43,11 @@ class CutflowProcessor(processor.ProcessorABC):
             "events": defaultdict(int),
             "hist": (
                     Hist.new.Reg(
-                        23, 40, 201, name="reg", label=r"Regressed mass"
+                        23, 40, 201, name="mass", label=r"Mass"
                     ).Var(
                         [300, 350, 400, 450, 500, 550, 600, 675, 800, 1200], name="pt", label=r"$p_T$ (GeV)"
                     ).Var(
-                        [-0.1, 0.8167194, 0.95448214, 0.9864132, 0.9967, 1.1], name="disc", label=r"$H\rightarrow b\bar{b}$ vs QCD discriminator",
+                        [-0.1, 0.8167194, 0.95448214, 0.9707, 0.9782, 0.9859, 0.9864132, 0.9945, 0.9962, 0.997, 0.9984, 0.9988, 0.9991, 0.9994, 1.1], name="disc", label=r"$H\rightarrow b\bar{b}$ vs QCD discriminator",
                     ).IntCategory(
                         [], name="genflav", label="Gen flavour", growth=True
                     ).IntCategory(
@@ -87,12 +89,12 @@ class CutflowProcessor(processor.ProcessorABC):
             return output
         
         fatjets = events.ScoutingFatJet
-        fatjets["qcdrho"] = 2 * np.log(fatjets.particleNet_mass / fatjets.pt)
+        fatjets["qcdrho"] = 2 * np.log(fatjets[self._mass] / fatjets.pt)
         fatjets["pn_Hbb"] = pn_disc(
             fatjets.particleNet_prob_Hbb,
             fatjets.particleNet_prob_QCD
         )
-        fatjets['n2ddt'] = fatjets.n2b1 - n2ddt_shift(fatjets)
+        fatjets['n2ddt'] = fatjets.n2b1 - n2ddt_shift(fatjets, self._ddt_map)
         
         jets = events.ScoutingJet
         jets = jets[
@@ -128,8 +130,8 @@ class CutflowProcessor(processor.ProcessorABC):
             & (candidatejet.pt < 1200)
 #             & (candidatejet.qcdrho < -1.7)
 #             & (candidatejet.qcdrho > -6.0)
-            & (abs(candidatejet.particleNet_mass) >= 40)
-            & (abs(candidatejet.particleNet_mass) < 201)
+            & (abs(candidatejet[self._mass]) >= 40)
+            & (abs(candidatejet[self._mass]) < 201)
             & (abs(candidatejet.eta) < 2.5)
         )
         
@@ -190,18 +192,17 @@ class CutflowProcessor(processor.ProcessorABC):
             bosons = getBosons(events.GenPart)
             matchedBoson = candidatejet.nearest(bosons, axis=None, threshold=0.8)
             if self._tightMatch:
-                match_mask = ((candidatejet.pt - matchedBoson.pt)/matchedBoson.pt < 0.5) & ((candidatejet.particleNet_mass - matchedBoson.mass)/matchedBoson.mass < 0.3)
+                match_mask = ((candidatejet.pt - matchedBoson.pt)/matchedBoson.pt < 0.5) & ((candidatejet[self._mass] - matchedBoson.mass)/matchedBoson.mass < 0.3)
                 selmatchedBoson = ak.mask(matchedBoson, match_mask)
                 genflavour = bosonFlavour(selmatchedBoson)
             else:
                 genflavour = bosonFlavour(matchedBoson)
             
-        #regmass_matched = candidatejet.particleNet_mass * (genflavour > 0) + candidatejet.particleNet_mass * (genflavour == 0)
-        softdropmass_matched = candidatejet.msoftdrop * (genflavour > 0) + candidatejet.msoftdrop * (genflavour == 0)
+        mass_matched = candidatejet[self._mass] * (genflavour > 0) + candidatejet[self._mass] * (genflavour == 0)
             
         regions = {
 #             'signal': ['n2ddt'],
-            'signal': ['trigger','minjetkin','jetid','n2ddt','met','noleptons'],
+            'signal': ['trigger','minjetkin','jetid','met','noleptons'],
         }
         
         def normalise(val, cut):
@@ -221,7 +222,7 @@ class CutflowProcessor(processor.ProcessorABC):
             
             output['hist'].fill(
                 dataset=dataset,
-                reg=normalise(softdropmass_matched, cut),
+                mass=normalise(mass_matched, cut),
                 pt=normalise(candidatejet.pt, cut),
                 disc=normalise(candidatejet.pn_Hbb, cut),
                 genflav=normalise(genflavour, cut),
@@ -236,7 +237,7 @@ class CutflowProcessor(processor.ProcessorABC):
                 
                 output['hist'].fill(
                     dataset=dataset,
-                    reg=normalise(softdropmass_matched, cut),
+                    mass=normalise(mass_matched, cut),
                     pt=normalise(candidatejet.pt, cut),
                     disc=normalise(candidatejet.pn_Hbb, cut),
                     genflav=normalise(genflavour, cut),

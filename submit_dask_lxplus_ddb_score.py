@@ -51,7 +51,7 @@ cluster = CernCluster(
         env_extra = env_extra,
 )
 
-cluster.adapt(minimum=2, maximum=100)
+cluster.adapt(minimum=2, maximum=300)
 cluster.scale(10)
 client = Client(cluster)
 
@@ -79,7 +79,7 @@ for this_file in infiles:
     output = processor.run_uproot_job(
                 this_file,
                 "Events",
-                processor_instance=DDBScoreProcessor(jet_arbitration='ddb', systematics=False),
+                processor_instance=DDBScoreProcessor(jet_arbitration='ddb', systematics=False, mass='particleNet_mass'),
                 executor=processor.dask_executor,
                 executor_args={
                     "schema": ScoutingNanoAODSchema,

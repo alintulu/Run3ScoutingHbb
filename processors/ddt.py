@@ -17,8 +17,9 @@ from processors.helper import (
 )
 
 class DDTProcessor(processor.ProcessorABC):
-    def __init__(self, do_jetid=True):
+    def __init__(self, do_jetid=True, mass='particleNet_mass'):
         self._do_jetid = do_jetid
+        self._mass = mass
         
     @property
     def accumulator(self):
@@ -72,7 +73,7 @@ class DDTProcessor(processor.ProcessorABC):
                 & (fatjets.nCh > 0)
                 & (fatjets.chEmEF < 0.8)
             ]
-        fatjets["qcdrho"] = 2 * np.log(fatjets.particleNet_mass / fatjets.pt)
+        fatjets["qcdrho"] = 2 * np.log(fatjets[self._mass] / fatjets.pt)
 #         fatjet = ak.firsts(fatjets)
         
         def normalise(val, cut=None):

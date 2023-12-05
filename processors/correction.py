@@ -7,10 +7,10 @@ import json
 from coffea.lumi_tools import LumiData, LumiList
 from coffea.nanoevents.methods import vector
 
-def n2ddt_shift(fatjets):
+def n2ddt_shift(fatjets, ddt_map):
     path_ddt_map = os.path.join(
         os.path.dirname(__file__),
-        "../data/n2b1/ddt_map.pkl",
+        f"../data/n2b1/{ddt_map}",
     )
     ddt_map = pickle.load(open(path_ddt_map,'rb'))
 
