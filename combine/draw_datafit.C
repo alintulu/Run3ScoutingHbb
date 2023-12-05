@@ -14,7 +14,7 @@ void draw(int index, bool pass, bool is_ggf, bool log=false){
 
   double rZbb = 1;
   string year = "2022";
-  string year_string = "0.41/fb (13.6 TeV)";
+  string year_string = "0.98/fb (13.6 TeV)";
   string thisbin = "pt"+to_string(index+1);
   string thisbin_fit = "ptbin"+to_string(index) + "ggf";
 

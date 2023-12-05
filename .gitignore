@@ -1,6 +1,8 @@
 outfiles
-combine/output
-combine/signalregion.root
+**/plots
+**/output
+**/combine_logger.out
+**/*.root
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,jupyternotebooks
