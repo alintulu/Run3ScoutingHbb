@@ -57,9 +57,12 @@ client = Client(cluster)
 
 print(datetime.now())
     
-infiles = subprocess.getoutput("ls inputfiles/Run3Summer22EE/*.json").split()
+infiles = subprocess.getoutput("ls inputfiles/Run3Summer22EE/QCD*.json").split()
 
 for this_file in infiles:
+
+    if "ScoutingPFRun3" in this_file:
+        continue
 
     index = this_file.split("/")[-1].split(".json")[0]
     outfile = f'outfiles/Run3Summer22EE/cutflow/dask_{index}.coffea'

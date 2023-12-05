@@ -65,7 +65,7 @@ for this_file in infiles:
         continue
 
     index = this_file.split("/")[-1].split(".json")[0]
-    outfile = f'outfiles/Run3Summer22EE/dbb_score/1000_bins/dask_{index}.coffea'
+    outfile = f'outfiles/Run3Summer22EE/ddb_score/dask_{index}.coffea'
     
     if os.path.isfile(outfile):
         print("File " + outfile + " already exists. Skipping.")
