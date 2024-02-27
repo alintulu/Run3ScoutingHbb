@@ -19,7 +19,7 @@ Running the analysis from scratch requires the following steps:
 2. [Creating the final histogram](#creating-the-final-histogram)
    - Creating a hist histogram
    - Converting the hist histogram to ROOT histogram
-3. Statistical analysis
+3. [Statistical analysis](combine)
 
 Each step will now be discussed in detail, **but first, setup the correct environment:**
 
