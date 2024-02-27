@@ -67,9 +67,37 @@ The histogram variable `cut` corresponds to the index of each selection step in 
 
 #### Submission
 
-To create the histogram using DASK, submit the jobs with  [submit_dask_lxplus_cutflow.py](submit_dask_lxplus_cutflow.py):
+To create the histogram using DASK, submit the jobs with  [submit_dask_lxplus_cutflow.py](submit_dask_lxplus_cutflow.py).
 
+Before submission, create a grid proxy located in your AFS user space (in the command below, **exchange the AFS path to your path**):
+
+```bash
+voms-proxy-init --rfc --voms cms:/cms/dcms -valid 192:00 --out /afs/cern.ch/user/a/adlintul/private/gridproxy.pem
 ```
+
+The path to the grid proxy is then inserted into the submission file [like this](https://github.com/alintulu/Run3ScoutingHbb/blob/main/submit_dask_lxplus_cutflow.py#L18):
+
+```python
+proxy_path = "/afs/cern.ch/user/a/adlintul/private/gridproxy.pem"
+os.environ['X509_USER_PROXY'] = proxy_path
+if os.path.isfile(os.environ['X509_USER_PROXY']):
+    print("Found proxy at {}".format(os.environ['X509_USER_PROXY']))
+else:
+    print("os.environ['X509_USER_PROXY'] ",os.environ['X509_USER_PROXY'])
+os.environ['X509_CERT_DIR'] = '/cvmfs/cms.cern.ch/grid/etc/grid-security/certificates'
+os.environ['X509_VOMS_DIR'] = '/cvmfs/cms.cern.ch/grid/etc/grid-security/vomsdir'
+os.environ['X509_USER_CERT'] = proxy_path
+
+env_extra = [
+        'export XRD_RUNFORKHANDLER=1',
+        'export X509_USER_PROXY={}'.format(proxy_path),
+        'export X509_CERT_DIR={}'.format(os.environ["X509_CERT_DIR"]),            
+    ]
+```
+
+Finally, submit with:
+
+```bash
 python submit_dask_lxplus_cutflow.py
 ```
 
@@ -85,11 +113,13 @@ To create tables and plots to evaluate the cutflow, use the following notebook: 
 
 To facilitate background estimation, signal candidate jets are divided into a signal and control region. These regions are identified by being either above or below a double b-tagging discriminant value, and are chosen to optimise sensitivity to the signal by maximising the number-counting significance.
 
-A multi-dimensional histogram is created with [processors/ddb_score.py](Rprocessors/ddb_score.py). In the script, the same selections as detailed in [processors/cutflow.py](processors/cutflow.py) are added.
+A multi-dimensional histogram is created with [processors/ddb_score.py](processors/ddb_score.py). In the script, the same selections as detailed in [processors/cutflow.py](processors/cutflow.py) are added.
 
 #### Submission
 
-To create the histogram using DASK, submit the jobs with  [submit_dask_lxplus_ddb_score.py](submit_dask_lxplus_ddb_score.py):
+To create the histogram using DASK, submit the jobs with  [submit_dask_lxplus_ddb_score.py](submit_dask_lxplus_ddb_score.py).
+
+Make sure you have created the grid proxy as detailed in [Optimising the event selection by stuyding the cutflow - Submission](#optimising-the-event-selection-by-stuyding-the-cutflow), then submit with:
 
 ```
 python submit_dask_lxplus_ddb_score.py
@@ -105,7 +135,9 @@ To find the optimised value, use the following notebook: [notebooks/ddb_score.ip
 
 The value is found by maximising the significance:
 
-$Z = \sqrt{2 \cdot (N_{S} +  N_{B}) \cdot \text{ln}(1 + N_{S} /  N_{B}) - 2  N_{S}}$
+$Z = \sqrt{2 \cdot (N_{S} +  N_{B}) \cdot \text{ln}(1 + N_{S} /  N_{B}) - 2  N_{S}}$,
+
+where $N_{S}$ and $N_{B}$ is the number of signal and background events, respectively.
 
 ## Creating the final histogram
 
@@ -113,7 +145,7 @@ $Z = \sqrt{2 \cdot (N_{S} +  N_{B}) \cdot \text{ln}(1 + N_{S} /  N_{B}) - 2  N_{
 
 Now that the event selection is optimised, and the signal and control regions are selected, it's time to fill the final histogram.
 
-A multi-dimensional histogram is created with [processors/hist.py](Rprocessors/hist.py). In the script, the same selections as detailed in [processors/cutflow.py](processors/cutflow.py) are added.
+A multi-dimensional histogram is created with [processors/hist.py](processors/hist.py). In the script, the same selections as detailed in [processors/cutflow.py](processors/cutflow.py) are added.
 
 Up- and down-varied histograms of the JES and JER systematics are created as [follows](https://github.com/alintulu/Run3ScoutingHbb/blob/master/processors/hist.py#L85-L95):
 
@@ -135,7 +167,9 @@ The process that fills the final histogram is repeated several times, each time 
 
 #### Submission
 
-To create the histogram using DASK, submit the jobs with  [submit_dask_lxplus_hist.py](submit_dask_lxplus_hist.py):
+To create the histogram using DASK, submit the jobs with  [submit_dask_lxplus_hist.py](submit_dask_lxplus_hist.py).
+
+Make sure you have created the grid proxy as detailed in [Optimising the event selection by stuyding the cutflow - Submission](#optimising-the-event-selection-by-stuyding-the-cutflow), then submi with:
 
 ```
 python submit_dask_lxplus_hist.py
