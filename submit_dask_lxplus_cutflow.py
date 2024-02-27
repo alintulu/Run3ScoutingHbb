@@ -58,7 +58,7 @@ client = Client(cluster)
 
 print(datetime.now())
     
-infiles = subprocess.getoutput("ls inputfiles/Run3Summer22EE/data/*2023*.json").split()
+infiles = subprocess.getoutput("ls data/inputfiles/Run3Summer22EE/data/*2023*.json").split()
 
 for this_file in infiles:
 
