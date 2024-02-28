@@ -1,5 +1,11 @@
 _The code was developed by Adelina Lintuluoto, starting from the [hbb-coffea](https://github.com/jennetd/hbb-coffea/tree/master) repository by Jennet Dickinson._
 
+This README documents:
+
+1. [Directory structure](#directory-structure), the contents of this Github repository
+2. [Analysis workflow](#analysis-workflow), details on how to run the analysis from scratch
+3. [Open items](#open-items), list of items that should be addressed
+
 # Directory structure
 
 Please note, this repository is a "work-in-progess". It contains code developed with Coffea 0.7.21 for the analysis of Higgs bosons produced at high transverse momentum and their subsequent decay into bottom quark-antiquark pairs using Run 3 scouting data. The 4 folders contain:
@@ -182,3 +188,17 @@ To reweight the MC histogram according to luminosity and cross section, use the 
 ### Converting the hist histogram to ROOT histogram
 
 In order to input the histogram to Combine, the hist histogram needs to be converted to a ROOT histogram. To do so, use the following notebook: [notebooks/roothist.ipynb](notebooks/roothist.ipynb).
+
+# Open items
+
+#### The following items should be addressed:
+
+1. Run 2 JES and JER SF and SF associated uncertanities are applied [here](https://github.com/alintulu/Run3ScoutingHbb/blob/main/processors/correction.py#L83-L88). These were added to provide an estimate of the JES and JER systematics, however, they should be exchanged for Run 3 (preferably scouting specific) SFs.
+2. MET corrections for data are provided by Connor Houghton, and are applied [here](https://github.com/alintulu/Run3ScoutingHbb/blob/main/processors/hist.py#L184-L189). Corrections for MC should also be applied (my understanding is that Connor is working on this). In additon, only 2022 corrections exist at the moment so they are applied also for data recorded in 2023. When 2023 corrections exist, makes sure to add them.
+
+#### The following items could be addressed (but are not necessary to my knowledge):
+
+1. If an AK4 jet flavour tagger exist, one may add the following selection: veto any event with a b-tagged AK4 jet in the opposite hemisphere of the signal candidate jet. This rejects TTbar contamination. An idea of how it might be implemented can be found [here](https://github.com/jennetd/hbb-coffea/blob/master/boostedhiggs/vbfprocessor.py#L278-L280).
+2. If scouting taus exist, reject events with taus in the same way as events with muons or electrons are rejected [here](https://github.com/alintulu/Run3ScoutingHbb/blob/main/processors/hist.py#L218).
+
+
