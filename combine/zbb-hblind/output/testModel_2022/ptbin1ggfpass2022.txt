@@ -1,27 +1,27 @@
-# Datacard for <Channel (ptbin1ggfpass2022) instance at 0x7fa4bc92e280> generated on 2024-02-06 12:50:52.262729
+# Datacard for <Channel (ptbin1ggfpass2022) instance at 0x7fb6171b4790> generated on 2024-02-06 13:28:00.681587
 imax 1 # number of categories ('bins' but here we are using shape templates)
 jmax 10 # number of samples minus 1
 kmax 19 # number of nuisance parameters
 shapes * ptbin1ggfpass2022 testModel_2022.root testModel_2022:ptbin1ggfpass2022_$PROCESS testModel_2022:ptbin1ggfpass2022_$PROCESS_$SYSTEMATIC
 bin ptbin1ggfpass2022
-observation 6821.000
+observation 14176.000
 bin                                   ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022  ptbin1ggfpass2022
 process                                         ZJetsbb            ZJetsqq              TTbar                  W                 VV                VBF                 ZH                 WH                ttH                ggF                qcd
 process                                               0                  1                  2                  3                  4                  5                  6                  7                  8                  9                 10
-rate                                            453.262             33.875            466.528            106.149              7.215             10.498              3.291              3.482              3.020             19.029              1.000
+rate                                            811.375             50.539            861.099            151.866             10.977             13.560              4.781              4.728              3.877             29.289              1.000
 CMS_lumi_13TeV_2016 lnN                          1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220                  -
-CMS_res_j_2022 lnN                        1.0003/0.9997      1.0157/0.9968      1.0097/0.9974      1.0008/0.9754      0.9942/1.0021      0.9990/0.9915      0.9927/0.9964      0.9878/0.9986      1.0010/0.9956      0.9915/0.9864                  -
-CMS_scale_j_2022 lnN                      0.9711/1.0388      0.9531/1.0590      0.9669/1.0391      0.9724/1.0275      0.9626/1.0180      0.9751/1.0377      0.9700/1.0036      0.9695/0.9968      0.9704/1.0006      0.9606/1.0304                  -
-ptbin1ggfpass2022_TTbar_mcstat lnN                    -                  -             1.1101                  -                  -                  -                  -                  -                  -                  -                  -
-ptbin1ggfpass2022_VBF_mcstat lnN                      -                  -                  -                  -                  -             1.2069                  -                  -                  -                  -                  -
-ptbin1ggfpass2022_VV_mcstat lnN                       -                  -                  -                  -             1.1721                  -                  -                  -                  -                  -                  -
-ptbin1ggfpass2022_WH_mcstat lnN                       -                  -                  -                  -                  -                  -                  -             1.1152                  -                  -                  -
-ptbin1ggfpass2022_W_mcstat lnN                        -                  -                  -             1.3233                  -                  -                  -                  -                  -                  -                  -
-ptbin1ggfpass2022_ZH_mcstat lnN                       -                  -                  -                  -                  -                  -             1.1410                  -                  -                  -                  -
-ptbin1ggfpass2022_ZJetsbb_mcstat lnN             1.0398                  -                  -                  -                  -                  -                  -                  -                  -                  -                  -
-ptbin1ggfpass2022_ZJetsqq_mcstat lnN                  -             1.1350                  -                  -                  -                  -                  -                  -                  -                  -                  -
-ptbin1ggfpass2022_ggF_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -                  -             1.1850                  -
-ptbin1ggfpass2022_ttH_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -             1.1543                  -                  -
+CMS_res_j_2022 lnN                        1.0037/0.9973      1.0028/1.0005      0.9943/1.0029      0.9686/0.9589      1.0102/0.9987      1.0102/1.0014      1.0075/0.9926      1.0083/0.9895      0.9993/1.0032      1.0006/1.0004                  -
+CMS_scale_j_2022 lnN                      0.9590/1.0389      0.9930/1.0235      0.9671/1.0327      0.9394/0.9735      0.9855/1.0197      0.9944/0.9947      0.9704/1.0252      0.9982/1.0286      1.0002/1.0168      0.9668/0.9986                  -
+ptbin1ggfpass2022_TTbar_mcstat lnN                    -                  -             1.0794                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin1ggfpass2022_VBF_mcstat lnN                      -                  -                  -                  -                  -             1.1662                  -                  -                  -                  -                  -
+ptbin1ggfpass2022_VV_mcstat lnN                       -                  -                  -                  -             1.1418                  -                  -                  -                  -                  -                  -
+ptbin1ggfpass2022_WH_mcstat lnN                       -                  -                  -                  -                  -                  -                  -             1.1014                  -                  -                  -
+ptbin1ggfpass2022_W_mcstat lnN                        -                  -                  -             1.3669                  -                  -                  -                  -                  -                  -                  -
+ptbin1ggfpass2022_ZH_mcstat lnN                       -                  -                  -                  -                  -                  -             1.1067                  -                  -                  -                  -
+ptbin1ggfpass2022_ZJetsbb_mcstat lnN             1.0326                  -                  -                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin1ggfpass2022_ZJetsqq_mcstat lnN                  -             1.1230                  -                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin1ggfpass2022_ggF_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -                  -             1.1682                  -
+ptbin1ggfpass2022_ttH_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -             1.1390                  -                  -
 tf_MCtempl_ggf2022_deco0 param 0 1
 tf_MCtempl_ggf2022_deco1 param 0 1
 tf_MCtempl_ggf2022_deco2 param 0 1

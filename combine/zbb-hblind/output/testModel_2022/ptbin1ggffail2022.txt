@@ -1,27 +1,27 @@
-# Datacard for <Channel (ptbin1ggffail2022) instance at 0x7fa4bc93f940> generated on 2024-02-06 12:50:52.264831
+# Datacard for <Channel (ptbin1ggffail2022) instance at 0x7fb617147880> generated on 2024-02-06 13:28:00.683931
 imax 1 # number of categories ('bins' but here we are using shape templates)
 jmax 10 # number of samples minus 1
 kmax 13 # number of nuisance parameters
 shapes * ptbin1ggffail2022 testModel_2022.root testModel_2022:ptbin1ggffail2022_$PROCESS testModel_2022:ptbin1ggffail2022_$PROCESS_$SYSTEMATIC
 bin ptbin1ggffail2022
-observation 7896169.000
+observation 15985276.000
 bin                                   ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022  ptbin1ggffail2022
 process                                         ZJetsbb            ZJetsqq              TTbar                  W                 VV                VBF                 ZH                 WH                ttH                ggF                qcd
 process                                               0                  1                  2                  3                  4                  5                  6                  7                  8                  9                 10
-rate                                          12819.248           3014.690          87277.046          67459.075           1424.819             54.451             26.078             34.519            112.810            143.703              1.000
+rate                                          22176.546           5273.331         156277.098         117439.472           2461.626            106.740             45.755             64.920            181.276            276.134              1.000
 CMS_lumi_13TeV_2016 lnN                          1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220             1.0220                  -
-CMS_res_j_2022 lnN                        1.0009/1.0005      1.0011/0.9999      1.0012/0.9989      0.9963/0.9976      1.0006/1.0002      0.9956/1.0036      0.9983/0.9998      1.0011/1.0024      1.0015/0.9971      1.0021/1.0057                  -
-CMS_scale_j_2022 lnN                      0.9614/1.0418      0.9654/1.0375      0.9619/1.0385      0.9535/1.0409      0.9603/1.0409      0.9671/1.0570      0.9632/1.0434      0.9660/1.0450      0.9712/1.0268      0.9775/1.0390                  -
-ptbin1ggffail2022_TTbar_mcstat lnN                    -                  -             1.0080                  -                  -                  -                  -                  -                  -                  -                  -
-ptbin1ggffail2022_VBF_mcstat lnN                      -                  -                  -                  -                  -             1.1253                  -                  -                  -                  -                  -
-ptbin1ggffail2022_VV_mcstat lnN                       -                  -                  -                  -             1.0149                  -                  -                  -                  -                  -                  -
-ptbin1ggffail2022_WH_mcstat lnN                       -                  -                  -                  -                  -                  -                  -             1.0550                  -                  -                  -
-ptbin1ggffail2022_W_mcstat lnN                        -                  -                  -             1.0317                  -                  -                  -                  -                  -                  -                  -
-ptbin1ggffail2022_ZH_mcstat lnN                       -                  -                  -                  -                  -                  -             1.0567                  -                  -                  -                  -
-ptbin1ggffail2022_ZJetsbb_mcstat lnN             1.0116                  -                  -                  -                  -                  -                  -                  -                  -                  -                  -
-ptbin1ggffail2022_ZJetsqq_mcstat lnN                  -             1.0238                  -                  -                  -                  -                  -                  -                  -                  -                  -
-ptbin1ggffail2022_ggF_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -                  -             1.0998                  -
-ptbin1ggffail2022_ttH_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -             1.0337                  -                  -
+CMS_res_j_2022 lnN                        0.9993/0.9999      1.0001/0.9999      0.9999/1.0004      1.0018/1.0038      0.9994/1.0009      0.9996/0.9873      1.0035/0.9985      1.0031/0.9988      1.0024/0.9981      1.0015/0.9989                  -
+CMS_scale_j_2022 lnN                      0.9582/1.0393      0.9617/1.0433      0.9648/1.0373      0.9657/1.0451      0.9614/1.0398      0.9472/1.0256      0.9674/1.0365      0.9606/1.0464      0.9729/1.0271      0.9634/1.0279                  -
+ptbin1ggffail2022_TTbar_mcstat lnN                    -                  -             1.0057                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin1ggffail2022_VBF_mcstat lnN                      -                  -                  -                  -                  -             1.0891                  -                  -                  -                  -                  -
+ptbin1ggffail2022_VV_mcstat lnN                       -                  -                  -                  -             1.0108                  -                  -                  -                  -                  -                  -
+ptbin1ggffail2022_WH_mcstat lnN                       -                  -                  -                  -                  -                  -                  -             1.0864                  -                  -                  -
+ptbin1ggffail2022_W_mcstat lnN                        -                  -                  -             1.0218                  -                  -                  -                  -                  -                  -                  -
+ptbin1ggffail2022_ZH_mcstat lnN                       -                  -                  -                  -                  -                  -             1.0411                  -                  -                  -                  -
+ptbin1ggffail2022_ZJetsbb_mcstat lnN             1.0100                  -                  -                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin1ggffail2022_ZJetsqq_mcstat lnN                  -             1.0194                  -                  -                  -                  -                  -                  -                  -                  -                  -
+ptbin1ggffail2022_ggF_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -                  -             1.0749                  -
+ptbin1ggffail2022_ttH_mcstat lnN                      -                  -                  -                  -                  -                  -                  -                  -             1.0254                  -                  -
 qcdparam_ggf_ptbin1_regbin0 extArg testModel_2022.root:testModel_2022
 qcdparam_ggf_ptbin1_regbin1 extArg testModel_2022.root:testModel_2022
 qcdparam_ggf_ptbin1_regbin10 extArg testModel_2022.root:testModel_2022
