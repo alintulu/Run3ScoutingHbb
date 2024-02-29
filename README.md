@@ -195,6 +195,7 @@ In order to input the histogram to Combine, the hist histogram needs to be conve
 
 1. Run 2 JES and JER SF and SF associated uncertanities are applied [here](https://github.com/alintulu/Run3ScoutingHbb/blob/main/processors/correction.py#L83-L88). These were added to provide an estimate of the JES and JER systematics, however, they should be exchanged for Run 3 (preferably scouting specific) SFs.
 2. MET corrections for data are provided by Connor Houghton, and are applied [here](https://github.com/alintulu/Run3ScoutingHbb/blob/main/processors/hist.py#L184-L189). Corrections for MC should also be applied (my understanding is that Connor is working on this). In additon, only 2022 corrections exist at the moment so they are applied also for data recorded in 2023. When 2023 corrections exist, makes sure to add them.
+3. Inclusion of more systematic uncertanities. For the implementation, Jennet's file [here](https://github.com/jennetd/hbb-fitcode/blob/master/main-vbf/prefit/make_cards.py#L254) is a good example to follow.
 
 #### The following items could be addressed (but are not necessary to my knowledge):
 
